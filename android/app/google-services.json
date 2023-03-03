@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "288430549143",
+    "project_id": "crave-cricket",
+    "storage_bucket": "crave-cricket.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288430549143:android:1fdb1de79f4a486cbe61d2",
+        "android_client_info": {
+          "package_name": "com.example.crave_cricket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "288430549143-h5f30atnun1h64vt74kv86pu3r48lnqs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.crave_cricket",
+            "certificate_hash": "1cc35fc2d59e7f6d15b026ab3d9b2f5a6197387d"
+          }
+        },
+        {
+          "client_id": "288430549143-mhaqfshd4i0hsfd73vi4e1tevo6m3amv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSHsh73AmfheDHUp7EdhId5HkVOCylfAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "288430549143-mhaqfshd4i0hsfd73vi4e1tevo6m3amv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
