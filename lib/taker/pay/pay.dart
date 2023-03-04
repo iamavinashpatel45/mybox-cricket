@@ -46,41 +46,6 @@ class _paymentState extends State<payment> {
     }
   }
 
-  // initiateTransaction(UpiApp app) async {
-  //   _transaction = _upiIndia.startTransaction(
-  //     app: app,
-  //     receiverUpiId: "avinashspatel11-1@okaxis",
-  //     receiverName: 'Quick Park',
-  //     transactionRefId: 'Quick Park Team',
-  //     transactionNote: 'Quick park',
-  //     amount: booking_details.amount!,
-  //   );
-  // }
-
-  // set_vehicle() {
-  //   if (booking_details.vehicle_type == 1) {
-  //     vehicle_type = 'assets/vehicles/car.png';
-  //     vehicle_name = "Car";
-  //   } else if (booking_details.vehicle_type == 2) {
-  //     vehicle_type = 'assets/vehicles/bike.png';
-  //     vehicle_name = "Bike";
-  //   } else if (booking_details.vehicle_type == 3) {
-  //     vehicle_type = 'assets/vehicles/van.png';
-  //     vehicle_name = "Van";
-  //   } else if (booking_details.vehicle_type == 4) {
-  //     vehicle_type = 'assets/vehicles/bus.png';
-  //     vehicle_name = "Bus";
-  //   } else if (booking_details.vehicle_type == 5) {
-  //     vehicle_type = 'assets/vehicles/s_truck.png';
-  //     vehicle_name = "Truck";
-  //   } else if (booking_details.vehicle_type == 6) {
-  //     vehicle_type = 'assets/vehicles/b_truck.png';
-  //     vehicle_name = "Truck";
-  //   }
-  //   setState(() {
-  //     dis = true;
-  //   });
-  // }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
@@ -326,14 +291,6 @@ class _paymentState extends State<payment> {
                                     try {
                                       _razorpay.open(options);
                                     } catch (e) {}
-                                    // initiateTransaction(app);
-                                    // _transaction!.catchError(() {});
-                                    // _transaction!.whenComplete(() =>
-                                    //     Navigator.push(
-                                    //         context,
-                                    //         MaterialPageRoute(
-                                    //             builder: (context) =>
-                                    //                 const pdf())));
                                   },
                                   child: SizedBox(
                                     height: 100,

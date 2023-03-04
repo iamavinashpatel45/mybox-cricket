@@ -70,14 +70,7 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
               height: 5,
             ),
             Text(
-              "Starting " +
-                  booking_details.a_date!.day.toString() +
-                  "-" +
-                  booking_details.a_date!.month.toString() +
-                  "-" +
-                  booking_details.a_date!.year.toString() +
-                  " at " +
-                  a_time,
+              "Starting ${booking_details.a_date!.day}-${booking_details.a_date!.month}-${booking_details.a_date!.year} at $a_time",
               style: const TextStyle(
                 fontSize: 15,
               ),

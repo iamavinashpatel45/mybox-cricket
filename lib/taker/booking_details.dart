@@ -32,7 +32,7 @@ class booking_details {
       String g_id = marker!.markerId.value.toString();
       String? g_num;
       double a = 1234;
-      String? random = "Quick_Park" + a.toString();
+      String? random = "myboxcricket" + a.toString();
       a = a + 5;
       DatabaseReference db = FirebaseDatabase.instance.ref();
       db = FirebaseDatabase.instance.ref("booking(user)/" + uid);
@@ -85,7 +85,7 @@ class booking_details {
 
       return result;
     } else {
-      Fluttertoast.showToast(msg: "You Your Internet connection");
+      Fluttertoast.showToast(msg: "Your Internet connection");
       return false;
     }
   }

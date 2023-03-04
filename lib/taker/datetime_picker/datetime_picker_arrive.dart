@@ -1,5 +1,3 @@
-import 'package:crave_cricket/account/account.dart';
-import 'package:crave_cricket/sliderimages.dart';
 import 'package:crave_cricket/taker/booking_details.dart';
 import 'package:crave_cricket/taker/datetime_picker/datetime_picker_leave.dart';
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
@@ -26,13 +24,6 @@ class _datetime_picker_arriveState extends State<datetime_picker_arrive> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.only(right: 30, top: 75),
-          //   child: sliderimages(
-          //     images: account.v[booking_details.marker!.index!][2],
-          //     type: false,
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.only(left: 10, bottom: 10),
             child: SizedBox(

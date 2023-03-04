@@ -130,83 +130,6 @@ class fun {
               account.v.add(x),
             }
         });
-    // await FirebaseFirestore.instance.collection("v_2").get().then((value) => {
-    //       for (int j = 0; j < value.docs.length; j++)
-    //         {
-    //           x = [],
-    //           x.add(value.docs[j].data()['location_1'].toString()),
-    //           x.add(value.docs[j].data()['location_2'].toString()),
-    //           x.add(value.docs[j].data()['num']),
-    //           x.add(value.docs[j].data()['uid']),
-    //           account.v_2.add(x),
-    //         }
-    //     });
-    // await FirebaseFirestore.instance.collection("v_3").get().then((value) => {
-    //       for (int j = 0; j < value.docs.length; j++)
-    //         {
-    //           x = [],
-    //           x.add(value.docs[j].data()['location_1'].toString()),
-    //           x.add(value.docs[j].data()['location_2'].toString()),
-    //           x.add(value.docs[j].data()['num']),
-    //           x.add(value.docs[j].data()['uid']),
-    //           account.v_3.add(x),
-    //         }
-    //     });
-    // await FirebaseFirestore.instance.collection("v_4").get().then((value) => {
-    //       for (int j = 0; j < value.docs.length; j++)
-    //         {
-    //           x = [],
-    //           x.add(value.docs[j].data()['location_1'].toString()),
-    //           x.add(value.docs[j].data()['location_2'].toString()),
-    //           x.add(value.docs[j].data()['num']),
-    //           x.add(value.docs[j].data()['uid']),
-    //           account.v_4.add(x),
-    //         }
-    //     });
-    // await FirebaseFirestore.instance.collection("v_5").get().then((value) => {
-    //       for (int j = 0; j < value.docs.length; j++)
-    //         {
-    //           x = [],
-    //           x.add(value.docs[j].data()['location_1'].toString()),
-    //           x.add(value.docs[j].data()['location_2'].toString()),
-    //           x.add(value.docs[j].data()['num']),
-    //           x.add(value.docs[j].data()['uid']),
-    //           account.v_5.add(x),
-    //         }
-    //     });
-    // await FirebaseFirestore.instance.collection("v_6").get().then((value) => {
-    //       for (int j = 0; j < value.docs.length; j++)
-    //         {
-    //           x = [],
-    //           x.add(value.docs[j].data()['location_1'].toString()),
-    //           x.add(value.docs[j].data()['location_2'].toString()),
-    //           x.add(value.docs[j].data()['num']),
-    //           x.add(value.docs[j].data()['uid']),
-    //           account.v_6.add(x),
-    //         }
-    //     });
-    // // String x_ = "v_" + (i + 1).toString();
-    // // await FirebaseFirestore.instance
-    // //     .collection(x_)
-    // //     .get()
-    // //     .then((value) => {
-    // //           for (int j = 0; j < value.docs.length; j++)
-    // //             {
-    // //               y = value.docs[j].data()['location_1'].toString(),
-    // //               z = value.docs[j].data()['location_2'].toString(),
-    // //               account.v_count[i].add(y),
-    // //               account.v_count[i].add(z),
-    // //               account.v_count[i].add(value.docs[j].data()['num']),
-    // //               account.v_count[i].add(value.docs[j].data()['uid']),
-    // //               account.v_count[i].add("go_on_marker(" +
-    // //                   "LatLng(" +
-    // //                   y +
-    // //                   "," +
-    // //                   z +
-    // //                   ")" +
-    // //                   ")"),
-    // //             }
-    // //         });
   }
 
   static set_marker() async {
@@ -228,45 +151,5 @@ class fun {
         ),
       );
     }
-    // for (int j = 0; j < account.v_2.length; j++) {
-    //   account.m_2.add(Marker(
-    //       markerId: MarkerId(account.v_2[j][3]),
-    //       position: LatLng(
-    //           double.parse(account.v_2[j][0]), double.parse(account.v_2[j][1])),
-    //       icon: BitmapDescriptor.defaultMarkerWithHue(
-    //           BitmapDescriptor.hueAzure)));
-    // }
-    // for (int j = 0; j < account.v_3.length; j++) {
-    //   account.m_3.add(Marker(
-    //       markerId: MarkerId(account.v_3[j][3]),
-    //       position: LatLng(
-    //           double.parse(account.v_3[j][0]), double.parse(account.v_3[j][1])),
-    //       icon: BitmapDescriptor.defaultMarkerWithHue(
-    //           BitmapDescriptor.hueAzure)));
-    // }
-    // for (int j = 0; j < account.v_4.length; j++) {
-    //   account.m_4.add(Marker(
-    //       markerId: MarkerId(account.v_4[j][3]),
-    //       position: LatLng(
-    //           double.parse(account.v_4[j][0]), double.parse(account.v_4[j][1])),
-    //       icon: BitmapDescriptor.defaultMarkerWithHue(
-    //           BitmapDescriptor.hueAzure)));
-    // }
-    // for (int j = 0; j < account.v_5.length; j++) {
-    //   account.m_5.add(Marker(
-    //       markerId: MarkerId(account.v_5[j][3]),
-    //       position: LatLng(
-    //           double.parse(account.v_5[j][0]), double.parse(account.v_5[j][1])),
-    //       icon: BitmapDescriptor.defaultMarkerWithHue(
-    //           BitmapDescriptor.hueAzure)));
-    // }
-    // for (int j = 0; j < account.v_6.length; j++) {
-    //   account.m_6.add(Marker(
-    //       markerId: MarkerId(account.v_6[j][3]),
-    //       position: LatLng(
-    //           double.parse(account.v_6[j][0]), double.parse(account.v_6[j][1])),
-    //       icon: BitmapDescriptor.defaultMarkerWithHue(
-    //           BitmapDescriptor.hueAzure)));
-    // }
   }
 }
