@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'package:crave_cricket/account/account.dart';
 import 'package:crave_cricket/taker/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -93,14 +91,8 @@ class _splashState extends State<splash> {
     }
   }
 
-  getdata() async {
-    var json = await rootBundle.loadString('assets/vehicles/vehicles.json');
-    account.data_vehicle = jsonDecode(json);
-  }
-
   @override
   void initState() {
-    getdata();
     userdata();
     super.initState();
   }

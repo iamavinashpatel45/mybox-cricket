@@ -14,7 +14,6 @@ class account {
   static LocationData? livelocation;
   static bool? user_;
   static List<String>? images;
-  static List? data_vehicle;
   static List<String>? list_;
   static List<List> v = [];
   static List<Marker> marker = [];
