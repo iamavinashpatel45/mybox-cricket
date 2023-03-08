@@ -34,6 +34,7 @@ class _log_inState extends State<log_in> {
       });
       if (await fun.checkInternet()) {
         try {
+          
           String x;
           SharedPreferences add = await SharedPreferences.getInstance();
           await FirebaseAuth.instance
