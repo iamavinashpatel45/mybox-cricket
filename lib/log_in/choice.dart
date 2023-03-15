@@ -66,11 +66,13 @@ class _choiceState extends State<choice> {
             InkWell(
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => log_in(
-                              choise: widget.choise,
-                            )));
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => log_in(
+                      choise: widget.choise,
+                    ),
+                  ),
+                );
               },
               child: Container(
                 height: 50,
@@ -98,11 +100,13 @@ class _choiceState extends State<choice> {
             InkWell(
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => sign_up(
-                              choise: widget.choise,
-                            )));
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => sign_up(
+                      choise: widget.choise,
+                    ),
+                  ),
+                );
               },
               child: Container(
                 height: 50,
@@ -149,7 +153,10 @@ class _choiceState extends State<choice> {
                             padding: const EdgeInsets.only(right: 10),
                             child: Row(
                               children: [
-                                Image.asset('assets/join.png',scale: 1,),
+                                Image.asset(
+                                  'assets/join.png',
+                                  scale: 1,
+                                ),
                                 const Text(
                                   "Join With Us",
                                   style: TextStyle(

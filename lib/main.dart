@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'package:crave_cricket/account/account.dart';
 import 'package:crave_cricket/taker/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,11 +74,14 @@ class _splashState extends State<splash> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const t_home(),
+              builder: (context) => const t_home(setmarker: 1,),
             ),
           );
         } else {
-          account.list_ = get.getStringList("list");
+          for (int i = 0; i < 5; i++) {
+            account.mysportdata_![i] = get.getBool(account.sports_data![i]['name'])!;
+          }
+          //account.list_ = get.getStringList("list");
           // ignore: use_build_context_synchronously
           Navigator.pushReplacement(
             context,
@@ -91,8 +96,14 @@ class _splashState extends State<splash> {
     }
   }
 
+  getdata() async {
+    var json = await rootBundle.loadString('assets/sports/sports.json');
+    account.sports_data = jsonDecode(json);
+  }
+
   @override
   void initState() {
+    getdata();
     userdata();
     super.initState();
   }

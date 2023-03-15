@@ -70,7 +70,8 @@ dependencies:
   dotted_border: ^2.0.0+3
   file_picker: ^5.2.5
   sliding_up_panel: ^2.0.0+1
-  password: ^1.0.0
+  dbcrypt: ^2.0.0
+  firebase_storage: ^11.0.15
 
 dev_dependencies:
   flutter_test:
@@ -100,6 +101,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets :
    - assets/
+   - assets/sports/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

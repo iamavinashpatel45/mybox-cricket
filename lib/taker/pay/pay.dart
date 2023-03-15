@@ -1,3 +1,4 @@
+import 'package:crave_cricket/account/account.dart';
 import 'package:crave_cricket/taker/booking_details.dart';
 import 'package:crave_cricket/taker/home.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,6 @@ class _paymentState extends State<payment> {
   bool book = false;
   UpiIndia _upiIndia = UpiIndia();
   Future<UpiResponse>? _transaction;
-  String? vehicle_type;
-  String? vehicle_name;
   int _value = 1;
   bool pay = true;
   Razorpay _razorpay = Razorpay();
@@ -35,7 +34,9 @@ class _paymentState extends State<payment> {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => const t_home(),
+          builder: (context) => const t_home(
+            setmarker: 1,
+          ),
         ),
         (route) => false,
       );
@@ -45,7 +46,6 @@ class _paymentState extends State<payment> {
       });
     }
   }
-
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
@@ -152,21 +152,42 @@ class _paymentState extends State<payment> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'BASIC PASS',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: color,
-                                  fontSize: 18,
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    booking_details.sportsname!,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: color,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Image.asset(
+                                    account.sports_data![
+                                        booking_details.sport_type]['image'],
+                                    scale: 15,
+                                  ),
+                                ],
                               ),
-                              Text(
-                                '₹ ${booking_details.amount}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: color,
-                                  fontSize: 18,
-                                ),
+                              Column(
+                                children: [
+                                  const Text(
+                                    'BASIC PASS',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  Text(
+                                    '₹ ${booking_details.amount}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: color,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
                               )
                             ],
                           ),
@@ -176,7 +197,7 @@ class _paymentState extends State<payment> {
                           ),
                           IntrinsicHeight(
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Column(
                                   children: [
@@ -204,9 +225,15 @@ class _paymentState extends State<payment> {
                                     )
                                   ],
                                 ),
+                                const SizedBox(
+                                  width: 25,
+                                ),
                                 const VerticalDivider(
                                   color: Colors.black,
                                   thickness: 1,
+                                ),
+                                const SizedBox(
+                                  width: 25,
                                 ),
                                 Column(
                                   children: [

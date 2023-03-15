@@ -15,7 +15,9 @@ import '../taker/datetime_picker/datetime_picker_arrive.dart';
 import 'booking_details.dart';
 
 class t_home extends StatefulWidget {
-  const t_home({Key? key}) : super(key: key);
+  final int setmarker;
+
+  const t_home({super.key, required this.setmarker});
 
   @override
   State<t_home> createState() => _t_homeState();
@@ -25,13 +27,12 @@ class _t_homeState extends State<t_home> {
   double min_height = 0;
   int index = 0;
   final GlobalKey<ScaffoldState> _drawerscaffoldkey =
-      new GlobalKey<ScaffoldState>();
+      GlobalKey<ScaffoldState>();
   Color color = HexColor("#155E83");
   GoogleMapController? _controller;
   LocationData? livelocation;
-  bool progressbar = false;
-  String vehicle_type = 'assets/vehicles/car.png';
   List<Marker>? marker;
+  static List<List> v = [];
 
   go_on_marker(LatLng latLng, Marker marker, int i) async {
     index = i;
@@ -53,27 +54,16 @@ class _t_homeState extends State<t_home> {
 
   // ignore: non_constant_identifier_names
   add_ontap() {
-    int x = account.marker.length;
+    int x = marker!.length;
     for (int i = 0; i < x; i++) {
-      account.marker[i].onTap = () {
-        go_on_marker(account.marker[i].position, account.marker[i],
-            account.marker[i].index!);
+      marker![i].onTap = () {
+        go_on_marker(
+          marker![i].position,
+          marker![i],
+          marker![i].index!,
+        );
       };
     }
-  }
-
-  Future go_on_liveloaction() async {
-    setState(() {
-      progressbar = true;
-    });
-    Location location = Location();
-    await location.getLocation().then((location) => {livelocation = location});
-    setState(() {
-      _controller?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: LatLng(livelocation!.latitude!, livelocation!.longitude!),
-          zoom: 15)));
-      progressbar = false;
-    });
   }
 
   getupiapps() {
@@ -88,7 +78,6 @@ class _t_homeState extends State<t_home> {
   }
 
   Future getlocation() async {
-    marker = account.marker;
     add_ontap();
     getupiapps();
     Location location = Location();
@@ -100,8 +89,28 @@ class _t_homeState extends State<t_home> {
         });
   }
 
+  _fun() {
+    if (widget.setmarker == 1) {
+      marker = account.m1;
+      v = account.v1;
+    } else if (widget.setmarker == 2) {
+      marker = account.m2;
+      v = account.v2;
+    } else if (widget.setmarker == 3) {
+      marker = account.m3;
+      v = account.v3;
+    } else if (widget.setmarker == 4) {
+      marker = account.m4;
+      v = account.v4;
+    } else {
+      marker = account.m5;
+      v = account.v5;
+    }
+  }
+
   @override
   void initState() {
+    _fun();
     getlocation();
     super.initState();
   }
@@ -183,7 +192,8 @@ class _t_homeState extends State<t_home> {
                                                 const datetime_picker_arrive(),
                                             type: PageTransitionType.size,
                                             duration: const Duration(
-                                                milliseconds: 500),
+                                              milliseconds: 500,
+                                            ),
                                           ),
                                         );
                                       },
@@ -191,13 +201,14 @@ class _t_homeState extends State<t_home> {
                                         height: 45,
                                         width: 120,
                                         decoration: BoxDecoration(
-                                            color: color,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: Colors.black,
-                                              width: 1,
-                                            )),
+                                          color: color,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                        ),
                                         child: const Center(
                                           child: Text(
                                             'Book',
@@ -224,7 +235,7 @@ class _t_homeState extends State<t_home> {
                         strokeCap: StrokeCap.round,
                         dashPattern: const [10, 4],
                         child: sliderimages(
-                          images: account.v[index][2],
+                          images: v[index][2],
                           type: false,
                         ),
                       ),
@@ -251,33 +262,6 @@ class _t_homeState extends State<t_home> {
                       _controller = controller;
                     },
                   ),
-                  progressbar == true
-                      ? Positioned(
-                          top: 150,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width - 30,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    width: 0.5,
-                                  )),
-                              child: Center(
-                                child: Text(
-                                  "Loading,Live Location...",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: color,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : Container(),
                   Positioned(
                     top: 40,
                     left: 20,

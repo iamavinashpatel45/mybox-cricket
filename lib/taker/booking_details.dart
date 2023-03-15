@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crave_cricket/account/account.dart';
+import 'package:dbcrypt/dbcrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ class booking_details {
   static DateTime? a_date;
   static DateTime? l_time;
   static DateTime? l_date;
+  static String? sportsname=account.sports_data![0]['name'];
+  static int sport_type = 1;
   static Duration? difference;
   static double? amount;
   static UpiResponse? transactiondetails;
@@ -24,7 +27,6 @@ class booking_details {
   static Future<bool> add_data(BuildContext context) async {
     if (await fun.checkInternet()) {
       String uid = FirebaseAuth.instance.currentUser!.uid;
-      String? vehical, vehical_path;
       String a_time =
           '${a_date!.day}/${a_date!.month} - ${TimeOfDay(hour: booking_details.a_time!.hour, minute: booking_details.a_time!.minute).format(context)}';
       String l_time =
@@ -32,10 +34,12 @@ class booking_details {
       String g_id = marker!.markerId.value.toString();
       String? g_num;
       double a = 1234;
-      String? random = "myboxcricket" + a.toString();
-      a = a + 5;
+      String? random =
+          "myboxcricket$a$a_time$a$l_time${booking_details.address}";
+      var hashedPassword = DBCrypt().hashpw(random, DBCrypt().gensalt());
+      random = hashedPassword;
       DatabaseReference db = FirebaseDatabase.instance.ref();
-      db = FirebaseDatabase.instance.ref("booking(user)/" + uid);
+      db = FirebaseDatabase.instance.ref("booking(user)/$uid");
       await FirebaseFirestore.instance
           .collection("user_data")
           .doc(g_id)
@@ -48,6 +52,7 @@ class booking_details {
       Map<String, String> data = {
         "t_id": uid,
         "g_id": g_id,
+        "sports": account.sports_data![booking_details.sport_type]['name'],
         "address": booking_details.address!,
         "num": g_num!,
         "atime": a_time,
@@ -67,6 +72,7 @@ class booking_details {
         "lname": account.lname_!,
         "t_id": uid,
         "g_id": g_id,
+        "sports": account.sports_data![booking_details.sport_type]['name'],
         "address": booking_details.address!,
         "num": account.num_!,
         "atime": a_time,
@@ -75,8 +81,7 @@ class booking_details {
         "ldate": booking_details.l_time.toString(),
         "amount": booking_details.amount.toString(),
       };
-      db = FirebaseDatabase.instance
-          .ref("booking/" + marker!.markerId.value.toString());
+      db = FirebaseDatabase.instance.ref("booking/${marker!.markerId.value}");
       await db
           .push()
           .set(data)

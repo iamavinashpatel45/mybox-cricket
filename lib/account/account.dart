@@ -10,13 +10,29 @@ class account {
   static String? email_;
   static String? pass_;
   static String? num_;
+  static List<bool>? mysportdata_=[
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
   static List<String> qr_data = [];
   static LocationData? livelocation;
   static bool? user_;
+  static List? sports_data;
   static List<String>? images;
   static List<String>? list_;
-  static List<List> v = [];
-  static List<Marker> marker = [];
+  static List<List> v1 = [];
+  static List<List> v2 = [];
+  static List<List> v3 = [];
+  static List<List> v4 = [];
+  static List<List> v5 = [];
+  static List<Marker> m1 = [];
+  static List<Marker> m2 = [];
+  static List<Marker> m3 = [];
+  static List<Marker> m4 = [];
+  static List<Marker> m5 = [];
 
   String? fname;
   String? lname;
@@ -27,17 +43,20 @@ class account {
   String? l_1;
   String? l_2;
   List<String>? list;
+  List<bool>? mysportdata;
 
-  account(
-      {this.fname,
-      this.lname,
-      this.email,
-      this.pass,
-      this.num,
-      this.user,
-      this.l_1,
-      this.l_2,
-      this.list});
+  account({
+    this.fname,
+    this.lname,
+    this.email,
+    this.pass,
+    this.num,
+    this.user,
+    this.l_1,
+    this.l_2,
+    this.list,
+    this.mysportdata,
+  });
 
   account.fromJson(Map<String, dynamic> json) {
     fname = json['fname'];
@@ -49,6 +68,7 @@ class account {
     list = json['list'];
     l_1 = json['l_1'];
     l_2 = json['l_2'];
+    mysportdata = json['mysportdata'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +82,7 @@ class account {
     data['l_1'] = this.l_1;
     data['l_2'] = this.l_2;
     data['list'] = this.list;
+    data['mysportdata'] = this.mysportdata;
     return data;
   }
 }
@@ -109,7 +130,6 @@ class fun {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
     Placemark place = placemarks[0];
-    print(place);
     if (place.locality!.isEmpty || place.thoroughfare!.isEmpty) {
       return '${place.street}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.postalCode}';
     } else {
@@ -119,31 +139,162 @@ class fun {
 
   static get_marker() async {
     List x;
-    await FirebaseFirestore.instance.collection("data").get().then((value) => {
-          for (int j = 0; j < value.docs.length; j++)
-            {
-              x = [],
-              x.add(value.docs[j].data()['location_1'].toString()),
-              x.add(value.docs[j].data()['location_2'].toString()),
-              x.add(value.docs[j].data()['images']),
-              x.add(value.docs[j].data()['uid']),
-              account.v.add(x),
-            }
-        });
+    await FirebaseFirestore.instance
+        .collection(account.sports_data![0]['name'])
+        .get()
+        .then((value) => {
+              for (int j = 0; j < value.docs.length; j++)
+                {
+                  x = [],
+                  x.add(value.docs[j].data()['location_1'].toString()),
+                  x.add(value.docs[j].data()['location_2'].toString()),
+                  x.add(value.docs[j].data()['images']),
+                  x.add(value.docs[j].data()['uid']),
+                  account.v1.add(x),
+                }
+            });
+    await FirebaseFirestore.instance
+        .collection(account.sports_data![1]['name'])
+        .get()
+        .then((value) => {
+              for (int j = 0; j < value.docs.length; j++)
+                {
+                  x = [],
+                  x.add(value.docs[j].data()['location_1'].toString()),
+                  x.add(value.docs[j].data()['location_2'].toString()),
+                  x.add(value.docs[j].data()['images']),
+                  x.add(value.docs[j].data()['uid']),
+                  account.v2.add(x),
+                }
+            });
+    await FirebaseFirestore.instance
+        .collection(account.sports_data![2]['name'])
+        .get()
+        .then((value) => {
+              for (int j = 0; j < value.docs.length; j++)
+                {
+                  x = [],
+                  x.add(value.docs[j].data()['location_1'].toString()),
+                  x.add(value.docs[j].data()['location_2'].toString()),
+                  x.add(value.docs[j].data()['images']),
+                  x.add(value.docs[j].data()['uid']),
+                  account.v3.add(x),
+                }
+            });
+    await FirebaseFirestore.instance
+        .collection(account.sports_data![3]['name'])
+        .get()
+        .then((value) => {
+              for (int j = 0; j < value.docs.length; j++)
+                {
+                  x = [],
+                  x.add(value.docs[j].data()['location_1'].toString()),
+                  x.add(value.docs[j].data()['location_2'].toString()),
+                  x.add(value.docs[j].data()['images']),
+                  x.add(value.docs[j].data()['uid']),
+                  account.v4.add(x),
+                }
+            });
+    await FirebaseFirestore.instance
+        .collection(account.sports_data![4]['name'])
+        .get()
+        .then((value) => {
+              for (int j = 0; j < value.docs.length; j++)
+                {
+                  x = [],
+                  x.add(value.docs[j].data()['location_1'].toString()),
+                  x.add(value.docs[j].data()['location_2'].toString()),
+                  x.add(value.docs[j].data()['images']),
+                  x.add(value.docs[j].data()['uid']),
+                  account.v5.add(x),
+                }
+            });
   }
 
   static set_marker() async {
-    for (int j = 0; j < account.v.length; j++) {
-      account.marker.add(
+    for (int j = 0; j < account.v1.length; j++) {
+      account.m1.add(
         Marker(
-          markerId: MarkerId(account.v[j][3]),
+          markerId: MarkerId(account.v1[j][3]),
           index: j,
           position: LatLng(
             double.parse(
-              account.v[j][0],
+              account.v1[j][0],
             ),
             double.parse(
-              account.v[j][1],
+              account.v1[j][1],
+            ),
+          ),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+        ),
+      );
+    }
+    for (int j = 0; j < account.v2.length; j++) {
+      account.m2.add(
+        Marker(
+          markerId: MarkerId(account.v2[j][3]),
+          index: j,
+          position: LatLng(
+            double.parse(
+              account.v2[j][0],
+            ),
+            double.parse(
+              account.v2[j][1],
+            ),
+          ),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+        ),
+      );
+    }
+    for (int j = 0; j < account.v3.length; j++) {
+      account.m3.add(
+        Marker(
+          markerId: MarkerId(account.v3[j][3]),
+          index: j,
+          position: LatLng(
+            double.parse(
+              account.v3[j][0],
+            ),
+            double.parse(
+              account.v3[j][1],
+            ),
+          ),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+        ),
+      );
+    }
+    for (int j = 0; j < account.v4.length; j++) {
+      account.m4.add(
+        Marker(
+          markerId: MarkerId(account.v4[j][3]),
+          index: j,
+          position: LatLng(
+            double.parse(
+              account.v4[j][0],
+            ),
+            double.parse(
+              account.v4[j][1],
+            ),
+          ),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+        ),
+      );
+    }
+    for (int j = 0; j < account.v5.length; j++) {
+      account.m5.add(
+        Marker(
+          markerId: MarkerId(account.v1[j][3]),
+          index: j,
+          position: LatLng(
+            double.parse(
+              account.v5[j][0],
+            ),
+            double.parse(
+              account.v5[j][1],
             ),
           ),
           icon:

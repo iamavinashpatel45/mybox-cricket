@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crave_cricket/account/account.dart';
 import 'package:crave_cricket/giver/g_details.dart';
 import 'package:crave_cricket/taker/home.dart';
+import 'package:dbcrypt/dbcrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -36,20 +37,24 @@ class _sign_upState extends State<sign_up> {
       });
       if (await fun.checkInternet()) {
         try {
+          var hashedPassword = DBCrypt().hashpw(pass!, DBCrypt().gensalt());
+          pass = hashedPassword;
           SharedPreferences add = await SharedPreferences.getInstance();
           await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: email!, password: pass!);
           await FirebaseFirestore.instance
               .collection(widget.choise ? "userdata" : "user_data")
               .doc(FirebaseAuth.instance.currentUser?.uid)
-              .set(account(
-                      email: email,
-                      num: num,
-                      fname: fname,
-                      lname: lname,
-                      pass: pass,
-                      user: widget.choise)
-                  .toJson())
+              .set(
+                account(
+                  email: email,
+                  num: num,
+                  fname: fname,
+                  lname: lname,
+                  pass: pass,
+                  user: widget.choise,
+                ).toJson(),
+              )
               .then((value) => {
                     account.email_ = email,
                     account.num_ = num,
@@ -71,7 +76,9 @@ class _sign_upState extends State<sign_up> {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const t_home(),
+                builder: (context) => const t_home(
+                  setmarker: 1,
+                ),
               ),
               (route) => false,
             );

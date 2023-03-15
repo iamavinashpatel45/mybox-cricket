@@ -129,7 +129,6 @@ class _leftside_backState extends State<leftside_back> {
 
 class leftside_up extends StatefulWidget {
   final DataSnapshot snapshot;
-
   const leftside_up({Key? key, required this.snapshot}) : super(key: key);
 
   @override
@@ -151,100 +150,137 @@ class _leftside_upState extends State<leftside_up> {
                 thickness: 10,
               ),
               Expanded(
-                  child: Text(
-                widget.snapshot.child('address').value.toString(),
-                style: const TextStyle(fontSize: 18, color: Colors.white),
-              )),
+                child: Text(
+                  widget.snapshot.child('address').value.toString(),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Color.fromARGB(255, 218, 173, 37),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
         Padding(
-            padding: const EdgeInsets.only(left: 15, top: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'BASIC PASS',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                    fontSize: 18,
+          padding: const EdgeInsets.only(left: 15, top: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'BASIC PASS',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
-                const Text(
-                  'SINGLE ENTARY AND EXIT',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: Colors.white),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                        width: 50,
-                        child: Text(
-                          " From",
-                          style: TextStyle(color: Colors.white),
-                        )),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      widget.snapshot.child('sports').value.toString(),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        child: Text(
-                          widget.snapshot.child('atime').value.toString(),
-                          style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              const Text(
+                'Slot',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 50,
+                    child: Text(
+                      " From",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      border: Border.all(
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      child: Text(
+                        widget.snapshot.child('atime').value.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              const Text(
+                " •",
+                style: TextStyle(
+                  color: Colors.white,
                 ),
-                const Text(
-                  " •",
-                  style: TextStyle(color: Colors.white),
+              ),
+              const Text(
+                " •",
+                style: TextStyle(
+                  color: Colors.white,
                 ),
-                const Text(
-                  " •",
-                  style: TextStyle(color: Colors.white),
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                        width: 50,
-                        child: Text(
-                          " Until",
-                          style: TextStyle(color: Colors.white),
-                        )),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 50,
+                    child: Text(
+                      " Until",
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        child: Text(
-                          widget.snapshot.child('ltime').value.toString(),
-                          style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      border: Border.all(
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      child: Text(
+                        widget.snapshot.child('ltime').value.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ))
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -270,15 +306,8 @@ class _rightsideState extends State<rightside> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         // Image.asset(
-        //   widget.snapshot.child('vehical_path').value.toString(),
+        //   widget.snapshot.child('sports').value.toString(),
         //   scale: 7,
-        // ),
-        // Text(
-        //   widget.snapshot.child('type').value.toString(),
-        //   style: const TextStyle(
-        //     fontSize: 18,
-        //     color: Colors.white,
-        //   ),
         // ),
         const SizedBox(
           height: 7,
@@ -286,12 +315,21 @@ class _rightsideState extends State<rightside> {
         Text(
           "₹${widget.snapshot.child('amount').value}",
           style: const TextStyle(
-              fontSize: 15, color: Colors.black, fontWeight: FontWeight.w700),
+            fontSize: 15,
+            color: Color.fromARGB(255, 218, 173, 37),
+            fontWeight: FontWeight.w700,
+          ),
         ),
         const Text(
           "(Pay At Location)",
           style: TextStyle(
-              fontSize: 8, color: Colors.black, fontWeight: FontWeight.w500),
+            fontSize: 8,
+            color: Color.fromARGB(255, 218, 173, 37),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
         ),
         InkWell(
             onTap: () {

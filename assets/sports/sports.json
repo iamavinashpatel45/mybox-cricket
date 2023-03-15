@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "Cicket",
+    "image": "assets/sports/cricket.png"
+  },
+  {
+    "id": 2,
+    "name": "Football",
+    "image": "assets/sports/football.png"
+  },
+  {
+    "id": 3,
+    "name": "Basketball",
+    "image": "assets/sports/basketball.png"
+  },
+  {
+    "id": 4,
+    "name": "Volleyball",
+    "image": "assets/sports/volleyball.png"
+  },
+  {
+    "id": 5,
+    "name": "Badminton",
+    "image": "assets/sports/badmintan.png"
+  }
+]

@@ -6,12 +6,14 @@ import 'package:crave_cricket/sliderimages.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
 
 class g_details extends StatefulWidget {
@@ -34,7 +36,13 @@ class _g_detailsState extends State<g_details> {
   LocationData? livelocation;
   LatLng? latLng_loacation;
   String? address;
-  final _key = GlobalKey<FormState>();
+  List<bool> selected_sports = [
+    true,
+    false,
+    false,
+    false,
+    false,
+  ];
 
   pickupimages() async {
     try {
@@ -54,19 +62,28 @@ class _g_detailsState extends State<g_details> {
   }
 
   Future<bool> add_images() async {
-    final cloudinary = CloudinaryPublic("dabxbdh8k", "zurw6cwy");
     List<String> imageurls = [];
     for (int i = 0; i < images.length; i++) {
-      CloudinaryResponse res = await cloudinary.uploadFile(
-        CloudinaryFile.fromFile(
-          images[i].path,
-          folder: account.fname_! + account.lname_!,
-        ),
-      );
-      imageurls.add(res.secureUrl);
+      var res = await FirebaseStorage.instance
+          .ref()
+          .child(
+              "myboxcricket/${account.fname_!}" "${account.lname_!}/${i.toString()}")
+          .putFile(images[i]);
+      var a = await res.ref.getDownloadURL();
+      imageurls.add(a);
     }
     account.images = imageurls;
     return true;
+  }
+
+  bool chek_select() {
+    bool a = false;
+    for (int i = 0; i < 5; i++) {
+      if (selected_sports[i]) {
+        a = true;
+      }
+    }
+    return a;
   }
 
   gohome() async {
@@ -74,7 +91,7 @@ class _g_detailsState extends State<g_details> {
       press_but = true;
     });
     bool a = await add_images();
-    if (a && livelocation != null) {
+    if (chek_select() && (widget.update || (a && livelocation != null))) {
       // ignore: use_build_context_synchronously
       FocusScope.of(context).unfocus();
       try {
@@ -93,21 +110,29 @@ class _g_detailsState extends State<g_details> {
                 l_1: latLng_loacation!.latitude.toString(),
                 l_2: latLng_loacation!.longitude.toString(),
                 list: account.images,
+                mysportdata: selected_sports,
               ).toJson(),
             )
             .then((value) => {});
-        await FirebaseFirestore.instance
-            .collection("data")
-            .doc(uid)
-            .set(
-              data_(
-                uid: uid,
-                location_1: latLng_loacation!.latitude.toString(),
-                location_2: latLng_loacation!.longitude.toString(),
-                images: account.images,
-              ).toJson(),
-            )
-            .then((value) => {});
+        account.mysportdata_ = selected_sports;
+        SharedPreferences add = await SharedPreferences.getInstance();
+        for (int i = 0; i < 5; i++) {
+          add.setBool(account.sports_data![i]['name'], selected_sports[i]);
+          if (selected_sports[i]) {
+            await FirebaseFirestore.instance
+                .collection(account.sports_data![i]['name'])
+                .doc(uid)
+                .set(
+                  data_(
+                    uid: uid,
+                    location_1: latLng_loacation!.latitude.toString(),
+                    location_2: latLng_loacation!.longitude.toString(),
+                    images: account.images,
+                  ).toJson(),
+                )
+                .then((value) => {});
+          }
+        }
         // for (int i = 0; i < 6; i++) {
         //   if (vehicle[i][1] != 0) {
         //     String x = "v_" + (i + 1).toString();
@@ -153,6 +178,14 @@ class _g_detailsState extends State<g_details> {
   }
 
   @override
+  void initState() {
+    if (widget.update) {
+      selected_sports = account.mysportdata_!;
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -192,58 +225,122 @@ class _g_detailsState extends State<g_details> {
                               width: MediaQuery.of(context).size.width,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Icon(
+                                children: [
+                                  const Icon(
                                     Icons.folder_open,
                                     size: 35,
                                   ),
-                                  Text(
-                                    "Select Product Images",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
+                                  widget.update
+                                      ? const Text(
+                                          "Add more Product Images",
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        )
+                                      : const Text(
+                                          "Select Product Images",
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
                                 ],
                               ),
                             ),
                           ),
                         ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Text(
-                      "Your Parking Place Location",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20,
-                      ),
+                  const Text(
+                    "Select Sports",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
                     ),
                   ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: account.sports_data!.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: InkWell(
+                            onTap: () {
+                              selected_sports[index] = !selected_sports[index];
+                              setState(() {});
+                            },
+                            child: Card(
+                              elevation: 10,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: color,
+                                    width: selected_sports[index] ? 3 : 0,
+                                  ),
+                                ),
+                                child: ListTile(
+                                  leading: Image.asset(
+                                      account.sports_data![index]['image']),
+                                  title: Text(
+                                    account.sports_data![index]['name'],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  // subtitle: Text(
+                                  //   account.data_vehicle![index]['desc'],
+                                  //   style: const TextStyle(
+                                  //     color: Colors.black,
+                                  //   ),
+                                  // ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
                   const SizedBox(
                     height: 10,
                   ),
-                  press == false
-                      ? InkWell(
-                          onTap: () {
-                            setState(() {
-                              getlocation();
-                              cir = true;
-                            });
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Text("Tap to add your live Location"),
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Text(address!),
+                  widget.update
+                      ? Container()
+                      : Row(
+                          children: [
+                            const Icon(Icons.location_on),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Your Parking Place Location",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                press == false
+                                    ? InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            getlocation();
+                                            cir = true;
+                                          });
+                                        },
+                                        child: const Text(
+                                            "Tap to add your live Location"),
+                                      )
+                                    : Text(address!),
+                              ],
+                            )
+                          ],
                         ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   press_but
                       ? Center(
@@ -284,14 +381,15 @@ class _g_detailsState extends State<g_details> {
             ),
           ),
           Positioned(
-              child: cir == true
-                  ? Center(
-                      child: SpinKitCubeGrid(
-                        color: color,
-                        size: 50.0,
-                      ),
-                    )
-                  : Container())
+            child: cir == true
+                ? Center(
+                    child: SpinKitCubeGrid(
+                      color: color,
+                      size: 50.0,
+                    ),
+                  )
+                : Container(),
+          )
         ],
       ),
     );

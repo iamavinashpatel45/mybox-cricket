@@ -34,7 +34,6 @@ class _log_inState extends State<log_in> {
       });
       if (await fun.checkInternet()) {
         try {
-          
           String x;
           SharedPreferences add = await SharedPreferences.getInstance();
           await FirebaseAuth.instance
@@ -50,12 +49,12 @@ class _log_inState extends State<log_in> {
                     account.fname_ = value.data()!['fname'],
                     account.lname_ = value.data()!['lname'],
                     account.user_ = value.data()!['user'],
-                    if (account.user_ == false)
-                      {
-                        x = value.data()!['list'],
-                        account.list_ = x.split(","),
-                        add.setStringList('list', account.list_!)
-                      },
+                    // if (account.user_ == false)
+                    //   {
+                    //     x = value.data()!['list'],
+                    //     account.list_ = x.split(","),
+                    //     add.setStringList('list', account.list_!)
+                    //   },
                     add.setString("email", account.email_!),
                     add.setString("num", account.num_!),
                     add.setString("pass", account.pass_!),
@@ -70,7 +69,9 @@ class _log_inState extends State<log_in> {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const t_home(),
+                builder: (context) => const t_home(
+                  setmarker: 1,
+                ),
               ),
               (route) => false,
             );

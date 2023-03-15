@@ -1,6 +1,8 @@
 import 'package:crave_cricket/account/account.dart';
 import 'package:crave_cricket/giver/g_details.dart';
 import 'package:crave_cricket/log_in/choice.dart';
+import 'package:crave_cricket/taker/booking_details.dart';
+import 'package:crave_cricket/taker/sport_select/t_select.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -43,23 +45,28 @@ class drawer extends StatelessWidget {
                           title: const Text("Update Data"),
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => g_details(
-                                          uid: FirebaseAuth
-                                              .instance.currentUser!.uid,
-                                          update: true,
-                                        )));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => g_details(
+                                  uid: FirebaseAuth.instance.currentUser!.uid,
+                                  update: true,
+                                ),
+                              ),
+                            );
                           },
                         ),
                         ListTile(
-                          leading: const Icon(Icons.update),
+                          leading: const Icon(Icons.qr_code_scanner),
                           title: const Text("Scan Qr Code"),
                           onTap: () async {
                             bool quick = false;
                             String result =
                                 await FlutterBarcodeScanner.scanBarcode(
-                                    '#ff6666', 'Cancel', true, ScanMode.QR);
+                              '#ff6666',
+                              'Cancel',
+                              true,
+                              ScanMode.QR,
+                            );
                             for (int i = 0; i < account.qr_data.length; i++) {
                               if (account.qr_data[i] == result) {
                                 quick = true;
@@ -68,25 +75,47 @@ class drawer extends StatelessWidget {
                             }
                             // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => done(
-                                          status: quick,
-                                        )));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => done(
+                                  status: quick,
+                                ),
+                              ),
+                            );
                           },
                         ),
                       ],
                     )
-                  : ListTile(
-                      leading: const Icon(Icons.my_library_books),
-                      title: const Text("My Booking"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const booked()));
-                      },
-                    )
+                  : Column(
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.my_library_books),
+                          title: const Text("My Booking"),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const booked(),
+                              ),
+                            );
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.sports),
+                          title: Text(account
+                                  .sports_data![booking_details.sport_type - 1]
+                              ['name']),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => t_select(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
             ],
           ),
           Column(
@@ -99,7 +128,9 @@ class drawer extends StatelessWidget {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const choice(choise: true),
+                      builder: (context) => const choice(
+                        choise: true,
+                      ),
                     ),
                     (route) => false,
                   );
