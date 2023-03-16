@@ -30,6 +30,8 @@ class _paymentState extends State<payment> {
     });
     bool a = await booking_details.add_data(context);
     if (a) {
+      booking_details.sport_type = 1;
+      booking_details.sportsname = 'cricket';
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(
         context,

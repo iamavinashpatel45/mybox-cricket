@@ -54,7 +54,10 @@ class _bookedState extends State<booked> {
           itemBuilder: (context, snapshot, animation, index) {
             go = true;
             DateTime.now().isBefore(
-                    DateTime.parse(snapshot.child('ldate').value.toString()))
+              DateTime.parse(
+                snapshot.child('leave').value.toString(),
+              ),
+            )
                 ? () {}
                 : delete_data(snapshot.key!);
             return go

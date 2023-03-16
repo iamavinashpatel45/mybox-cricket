@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:crave_cricket/account/account.dart';
 import 'package:crave_cricket/sliderimages.dart';
 import 'package:dotted_border/dotted_border.dart';

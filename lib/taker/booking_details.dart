@@ -16,7 +16,7 @@ class booking_details {
   static DateTime? a_date;
   static DateTime? l_time;
   static DateTime? l_date;
-  static String? sportsname=account.sports_data![0]['name'];
+  static String? sportsname = account.sports_data![0]['name'];
   static int sport_type = 1;
   static Duration? difference;
   static double? amount;
@@ -58,15 +58,20 @@ class booking_details {
         "atime": a_time,
         "ltime": l_time,
         "random": random,
-        "ldate": booking_details.l_time.toString(),
+        'arrive': booking_details.a_time.toString(),
+        "leave": booking_details.l_time.toString(),
         "amount": booking_details.amount.toString(),
       };
       bool result = false;
       await db
           .push()
           .set(data)
-          .then((value) => {result = true})
-          .onError((error, stackTrace) => {result = false});
+          .then((value) => {
+                result = true,
+              })
+          .onError((error, stackTrace) => {
+                result = false,
+              });
       data = {
         "fname": account.fname_!,
         "lname": account.lname_!,
@@ -78,20 +83,70 @@ class booking_details {
         "atime": a_time,
         "ltime": l_time,
         "random": random,
-        "ldate": booking_details.l_time.toString(),
+        'arrive': booking_details.a_time.toString(),
+        "leave": booking_details.l_time.toString(),
         "amount": booking_details.amount.toString(),
       };
       db = FirebaseDatabase.instance.ref("booking/${marker!.markerId.value}");
       await db
           .push()
           .set(data)
-          .then((value) => {result = true})
-          .onError((error, stackTrace) => {result = false});
-
+          .then((value) => {
+                result = true,
+              })
+          .onError((error, stackTrace) => {
+                result = false,
+              });
+      data = {
+        "t_id": uid,
+        "sports": account.sports_data![booking_details.sport_type]['name'],
+        "random": random,
+        'arrive': booking_details.a_time.toString(),
+        "leave": booking_details.l_time.toString(),
+      };
+      await FirebaseFirestore.instance
+          .collection('bookslots')
+          .doc(g_id)
+          .collection(sportsname!)
+          .add(data)
+          .then((value) => {
+                result = true,
+              })
+          .onError((error, stackTrace) => {
+                result = false,
+              });
       return result;
     } else {
       Fluttertoast.showToast(msg: "Your Internet connection");
       return false;
     }
+  }
+}
+
+class getbookslots {
+  String? arrive;
+  String? leave;
+  String? random;
+  String? sports;
+  String? tId;
+
+  getbookslots({this.arrive, this.leave, this.random, this.sports, this.tId});
+
+  getbookslots.fromJson(Map<String, dynamic> json) {
+    arrive = json['arrive'];
+    leave = json['leave'];
+    random = json['random'];
+    sports = json['sports'];
+    tId = json['t_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['arrive'] = this.arrive;
+    data['leave'] = this.leave;
+    data['random'] = this.random;
+    data['sports'] = this.sports;
+    data['t_id'] = this.tId;
+    return data;
   }
 }

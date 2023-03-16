@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crave_cricket/account/account.dart';
 import 'package:crave_cricket/taker/booking_details.dart';
 import 'package:crave_cricket/taker/pay/pay.dart';
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -16,6 +19,55 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
   final _key = GlobalKey<FormState>();
   DateTime datetime = DateTime.now();
   Color color = HexColor("#155E83");
+  var data = [];
+
+  Future<bool> checkslot(DateTime time) async {
+    for (int i = 0; i < data.length; i++) {
+      if ((time.isAfter(
+                DateTime.parse(
+                  data[i].first.arrive,
+                ),
+              ) ||
+              time.isAtSameMomentAs(
+                DateTime.parse(
+                  data[i].first.arrive,
+                ),
+              )) &&
+          (time.isBefore(
+                DateTime.parse(
+                  data[i].first.leave,
+                ),
+              ) ||
+              time.isAtSameMomentAs(
+                DateTime.parse(
+                  data[i].first.leave,
+                ),
+              ))) {
+        Fluttertoast.showToast(msg: "This time allready selected!");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  fun() async {
+    var res = await FirebaseFirestore.instance
+        .collection('bookslots')
+        .doc(booking_details.marker!.markerId.value.toString())
+        .collection(booking_details.sportsname!)
+        .get();
+    data = res.docs
+        .map((e) => {
+              getbookslots.fromJson(e.data()),
+            })
+        .toList();
+  }
+
+  @override
+  void initState() {
+    fun();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +82,41 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 10, bottom: 10),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 2,
-              child: Text(
-                booking_details.address!,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
+            padding: const EdgeInsets.only(left: 10, bottom: 10, right: 10),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width - 20) / 2,
+                  child: Text(
+                    booking_details.address!,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width - 20) / 2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        booking_details.sportsname!,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Image.asset(
+                        account.sports_data![booking_details.sport_type - 1]
+                            ['image'],
+                        scale: 12,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           )
         ],
@@ -47,12 +124,13 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
       bottomNavigationBar: Container(
         height: 380,
         decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.black, width: 1),
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(15),
-              topLeft: Radius.circular(15),
-            )),
+          color: Colors.white,
+          border: Border.all(color: Colors.black, width: 1),
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(15),
+            topLeft: Radius.circular(15),
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -84,7 +162,8 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
                   ? booking_details.a_time!.add(const Duration(minutes: 30))
                   : DateTime.parse("1969-07-20 00:00:00Z"),
               timeInterval: const Duration(minutes: 30),
-              onTimeChanged: (time) {
+              onTimeChanged: (time) async {
+                await checkslot(time);
                 setState(() {
                   booking_details.l_time = time;
                   booking_details.difference = booking_details.l_time!
@@ -99,7 +178,8 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
                   }
                 });
               },
-              onDateChanged: (date) {
+              onDateChanged: (date) async {
+                await checkslot(date);
                 booking_details.l_date = date;
               },
             ),
@@ -124,30 +204,37 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      if (await checkslot(booking_details.a_time!)) {
+                        Navigator.push(
                           context,
                           PageTransition(
                             alignment: Alignment.centerLeft,
                             child: const payment(),
                             type: PageTransitionType.size,
                             duration: const Duration(milliseconds: 500),
-                          ));
+                          ),
+                        );
+                      }
                     },
                     child: Container(
                       height: 45,
                       width: 120,
                       decoration: BoxDecoration(
-                          color: color,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 1,
-                          )),
+                        color: color,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1,
+                        ),
+                      ),
                       child: const Center(
                         child: Text(
                           'Pay',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
