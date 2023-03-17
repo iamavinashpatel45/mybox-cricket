@@ -167,7 +167,7 @@ class _leftside_upState extends State<leftside_up> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 15, top: 12),
+          padding: const EdgeInsets.only(left: 15, top: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -179,7 +179,7 @@ class _leftside_upState extends State<leftside_up> {
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 15,
                     ),
                   ),
                   Padding(
@@ -194,16 +194,28 @@ class _leftside_upState extends State<leftside_up> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 5,
+              const Divider(
+                color: Color.fromARGB(255, 218, 173, 37),
+                thickness: 2,
               ),
-              const Text(
-                'Slot',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+              Row(
+                children: const [
+                  Icon(
+                    Icons.timer_outlined,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    'Slot(time)',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
               ),
               Row(
                 children: [
@@ -241,6 +253,7 @@ class _leftside_upState extends State<leftside_up> {
                 " •",
                 style: TextStyle(
                   color: Colors.white,
+                  fontSize: 15,
                 ),
               ),
               const Text(

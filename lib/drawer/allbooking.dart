@@ -130,7 +130,7 @@ class _allbookingState extends State<allbooking> {
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
-                                        fontSize: 18,
+                                        fontSize: 15,
                                       ),
                                     ),
                                     Padding(
@@ -145,8 +145,28 @@ class _allbookingState extends State<allbooking> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 15,
+                                const Divider(
+                                  color: Color.fromARGB(255, 218, 173, 37),
+                                  thickness: 2,
+                                ),
+                                Row(
+                                  children: const [
+                                    Icon(
+                                      Icons.timer_outlined,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      'Slot(time)',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 Row(
                                   children: [
@@ -184,6 +204,7 @@ class _allbookingState extends State<allbooking> {
                                   " •",
                                   style: TextStyle(
                                     color: Colors.white,
+                                    fontSize: 15,
                                   ),
                                 ),
                                 const Text(
