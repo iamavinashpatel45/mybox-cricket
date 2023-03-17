@@ -1,4 +1,5 @@
 import 'package:crave_cricket/account/account.dart';
+import 'package:crave_cricket/drawer/allbooking.dart';
 import 'package:crave_cricket/giver/g_details.dart';
 import 'package:crave_cricket/log_in/choice.dart';
 import 'package:crave_cricket/taker/booking_details.dart';
@@ -6,8 +7,9 @@ import 'package:crave_cricket/taker/sport_select/t_select.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:quickalert/quickalert.dart';
 import '../taker/booked/booked.dart';
-import 'done.dart';
 
 class drawer extends StatelessWidget {
   final bool type;
@@ -16,6 +18,7 @@ class drawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color color = HexColor("#155E83");
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,10 +59,24 @@ class drawer extends StatelessWidget {
                           },
                         ),
                         ListTile(
+                          leading: const Icon(Icons.list),
+                          title: const Text("Past Booking"),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const allbooking(
+                                  user: true,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        ListTile(
                           leading: const Icon(Icons.qr_code_scanner),
                           title: const Text("Scan Qr Code"),
                           onTap: () async {
-                            bool quick = false;
+                            bool mybox = false;
                             String result =
                                 await FlutterBarcodeScanner.scanBarcode(
                               '#ff6666',
@@ -67,21 +84,29 @@ class drawer extends StatelessWidget {
                               true,
                               ScanMode.QR,
                             );
-                            for (int i = 0; i < account.qr_data.length; i++) {
-                              if (account.qr_data[i] == result) {
-                                quick = true;
-                                break;
+                            if (result != '-1') {
+                              for (int i = 0; i < account.qr_data.length; i++) {
+                                if (account.qr_data[i] == result) {
+                                  mybox = true;
+                                  break;
+                                }
+                              }
+                              if (mybox) {
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.success,
+                                  barrierDismissible: false,
+                                  confirmBtnColor: color,
+                                );
+                              } else {
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.error,
+                                  title: 'Not Allow',
+                                  confirmBtnColor: color,
+                                );
                               }
                             }
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => done(
-                                  status: quick,
-                                ),
-                              ),
-                            );
                           },
                         ),
                       ],
@@ -96,6 +121,20 @@ class drawer extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const booked(),
+                              ),
+                            );
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.list),
+                          title: const Text("Past Booking"),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const allbooking(
+                                  user: true,
+                                ),
                               ),
                             );
                           },

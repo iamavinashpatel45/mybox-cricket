@@ -120,10 +120,10 @@ class _leftside_backState extends State<leftside_back> {
     return Center(
       child: QrImage(
         data: widget.snapshot,
-        foregroundColor: Colors.black87,
+        foregroundColor: Colors.white,
         embeddedImage: const AssetImage('assets/logo__.png'),
         embeddedImageStyle: QrEmbeddedImageStyle(
-          size: const Size(80, 80),
+          size: const Size(70, 70),
         ),
       ),
     );
@@ -335,39 +335,40 @@ class _rightsideState extends State<rightside> {
           height: 10,
         ),
         InkWell(
-            onTap: () {
-              _callNumber(widget.snapshot.child('num').value.toString());
-            },
-            child: Row(
-              children: [
-                const SizedBox(
-                  width: 2,
-                ),
-                Container(
-                  height: 40,
-                  decoration:
-                      const BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                    BoxShadow(
-                      color: Colors.white,
-                      spreadRadius: 2,
-                    ),
-                    BoxShadow(
-                      color: Colors.white,
-                    ),
-                  ]),
-                  child: const Icon(
-                    Icons.phone,
+          onTap: () {
+            _callNumber(widget.snapshot.child('num').value.toString());
+          },
+          child: Row(
+            children: [
+              const SizedBox(
+                width: 2,
+              ),
+              Container(
+                height: 40,
+                decoration:
+                    const BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                  BoxShadow(
+                    color: Colors.white,
+                    spreadRadius: 2,
                   ),
+                  BoxShadow(
+                    color: Colors.white,
+                  ),
+                ]),
+                child: const Icon(
+                  Icons.phone,
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
-                const Text(
-                  "Call",
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
-              ],
-            )),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              const Text(
+                "Call",
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+            ],
+          ),
+        ),
         InkWell(
           onTap: () {
             MapsLauncher.launchQuery(

@@ -10,7 +10,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:location/location.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:upi_india/upi_india.dart';
 import '../taker/datetime_picker/datetime_picker_arrive.dart';
 import 'booking_details.dart';
 
@@ -66,20 +65,9 @@ class _t_homeState extends State<t_home> {
     }
   }
 
-  getupiapps() {
-    UpiIndia _upiIndia = UpiIndia();
-    _upiIndia.getAllUpiApps(mandatoryTransactionId: false).then((value) {
-      setState(() {
-        booking_details.apps = value;
-      });
-    }).catchError((e) {
-      booking_details.apps = [];
-    });
-  }
 
   Future getlocation() async {
     add_ontap();
-    getupiapps();
     Location location = Location();
     await location.getLocation().then((location) => {
           setState(() {

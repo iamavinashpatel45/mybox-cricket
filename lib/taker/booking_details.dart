@@ -6,8 +6,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:upi_india/upi_app.dart';
-import 'package:upi_india/upi_response.dart';
 
 class booking_details {
   static LatLng? next;
@@ -20,8 +18,6 @@ class booking_details {
   static int sport_type = 1;
   static Duration? difference;
   static double? amount;
-  static UpiResponse? transactiondetails;
-  static List<UpiApp>? apps;
   static Marker? marker;
 
   static Future<bool> add_data(BuildContext context) async {
@@ -39,14 +35,13 @@ class booking_details {
       var hashedPassword = DBCrypt().hashpw(random, DBCrypt().gensalt());
       random = hashedPassword;
       DatabaseReference db = FirebaseDatabase.instance.ref();
-      db = FirebaseDatabase.instance.ref("booking(user)/$uid");
       await FirebaseFirestore.instance
           .collection("user_data")
           .doc(g_id)
           .get()
           .then(
             (value) => {
-              g_num = value.data()!.values.toList()[3],
+              g_num = value.data()!.values.toList()[4],
             },
           );
       Map<String, String> data = {
@@ -63,6 +58,18 @@ class booking_details {
         "amount": booking_details.amount.toString(),
       };
       bool result = false;
+      await FirebaseFirestore.instance
+          .collection('userdata(allbooking)')
+          .doc(uid)
+          .collection(uid)
+          .add(data)
+          .then((value) => {
+                result = true,
+              })
+          .onError((error, stackTrace) => {
+                result = false,
+              });
+      db = FirebaseDatabase.instance.ref("booking(user)/$uid");
       await db
           .push()
           .set(data)
@@ -87,6 +94,17 @@ class booking_details {
         "leave": booking_details.l_time.toString(),
         "amount": booking_details.amount.toString(),
       };
+      await FirebaseFirestore.instance
+          .collection('user_data(allbooking)')
+          .doc(g_id)
+          .collection(g_id)
+          .add(data)
+          .then((value) => {
+                result = true,
+              })
+          .onError((error, stackTrace) => {
+                result = false,
+              });
       db = FirebaseDatabase.instance.ref("booking/${marker!.markerId.value}");
       await db
           .push()

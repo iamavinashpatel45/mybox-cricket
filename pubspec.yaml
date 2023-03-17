@@ -47,10 +47,6 @@ dependencies:
   cloud_firestore: ^4.4.3
   date_time_picker_widget: ^1.0.1+4
   animated_rotation: ^2.0.0
-  upi_india: ^3.0.1
-  geocoding: ^2.0.5
-  syncfusion_flutter_pdf: ^20.2.49
-  flutter_pdfview: ^1.2.2
   firebase_database: ^10.0.14
   flutter_polyline_points: ^1.0.0
   hexcolor: ^3.0.1
@@ -71,6 +67,9 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   dbcrypt: ^2.0.0
   firebase_storage: ^11.0.15
+  quickalert: ^1.0.1
+  geocoding: ^2.1.0
+  timelines: ^0.1.0
 
 dev_dependencies:
   flutter_test:

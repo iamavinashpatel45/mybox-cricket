@@ -21,7 +21,7 @@ class _g_homeState extends State<g_home> {
   bool go = true;
   String uid = FirebaseAuth.instance.currentUser!.uid;
   DatabaseReference db = FirebaseDatabase.instance
-      .ref("booking/" + FirebaseAuth.instance.currentUser!.uid);
+      .ref("booking/${FirebaseAuth.instance.currentUser!.uid}");
 
   _callNumber(String num) async {
     await FlutterPhoneDirectCaller.callNumber(num);
@@ -29,7 +29,7 @@ class _g_homeState extends State<g_home> {
 
   delete_data(String key) async {
     DatabaseReference db_delete = FirebaseDatabase.instance
-        .ref("booking/" + FirebaseAuth.instance.currentUser!.uid + "/" + key);
+        .ref("booking/${FirebaseAuth.instance.currentUser!.uid}/$key");
     await db_delete.remove().then((value) => () {
           go = false;
         });
@@ -43,7 +43,7 @@ class _g_homeState extends State<g_home> {
       ),
       appBar: AppBar(
         title: const Text('booking'),
-        backgroundColor: HexColor("#155E83"),
+        backgroundColor: color,
         elevation: 0,
       ),
       body: FirebaseAnimatedList(
@@ -57,218 +57,235 @@ class _g_homeState extends State<g_home> {
         ),
         itemBuilder: (context, snapshot, animation, index) {
           go = true;
-          account.qr_data
-              .add(snapshot.child('random').value.toString());
+          account.qr_data.add(snapshot.child('random').value.toString());
           DateTime.now().isBefore(
-                  DateTime.parse(snapshot.child('ldate').value.toString()))
-              ? () {
-
-                }
+                  DateTime.parse(snapshot.child('leave').value.toString()))
+              ? () {}
               : delete_data(snapshot.key!);
           return go
               ? Card(
-            elevation: 10,
+                  elevation: 10,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TicketMaterial(
-                      height: 220,
-                      radiusCircle: 6,
-                      leftChild: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          IntrinsicHeight(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const VerticalDivider(
-                                  color: Colors.black,
-                                  thickness: 10,
-                                ),
-                                Expanded(
-                                    child: Text(
+                    height: 220,
+                    radiusCircle: 6,
+                    leftChild: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        IntrinsicHeight(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const VerticalDivider(
+                                color: Colors.black,
+                                thickness: 10,
+                              ),
+                              Expanded(
+                                child: Text(
                                   snapshot.child('address').value.toString(),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
-                                      fontSize: 18, color: Colors.white),
-                                )),
-                              ],
-                            ),
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 218, 173, 37),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 15, top: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, top: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
                                     'BASIC PASS',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontSize: 18,
                                     ),
                                   ),
-                                  const Text(
-                                    'SINGLE ENTARY AND EXIT',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        color: Colors.white),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const SizedBox(
-                                          width: 50,
-                                          child: Text(
-                                            " From",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          )),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          border: Border.all(
-                                            color: Colors.white,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 4),
-                                          child: Text(
-                                            snapshot
-                                                .child('atime')
-                                                .value
-                                                .toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: Text(
+                                      snapshot.child('sports').value.toString(),
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.white,
                                       ),
-                                    ],
-                                  ),
-                                  const Text(
-                                    " •",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  const Text(
-                                    " •",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  Row(
-                                    children: [
-                                      const SizedBox(
-                                          width: 50,
-                                          child: Text(
-                                            " Until",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          )),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          border: Border.all(
-                                            color: Colors.white,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 4),
-                                          child: Text(
-                                            snapshot
-                                                .child('ltime')
-                                                .value
-                                                .toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ))
-                        ],
-                      ),
-                      rightChild: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            snapshot.child('vehical_path').value.toString(),
-                            scale: 7,
-                          ),
-                          Text(
-                            snapshot.child('type').value.toString(),
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 7,
-                          ),
-                          Text(
-                            "₹" + snapshot.child('amount').value.toString(),
-                            style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          const Text(
-                            "(Pay At Location)",
-                            style: TextStyle(
-                                fontSize: 8,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          InkWell(
-                              onTap: () {
-                                _callNumber(
-                                    snapshot.child('num').value.toString());
-                              },
-                              child: Row(
-                                children: [
-                                  const SizedBox(
-                                    width: 2,
-                                  ),
-                                  Container(
-                                    height: 40,
-                                    decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.white,
-                                            spreadRadius: 2,
-                                          ),
-                                          BoxShadow(
-                                            color: Colors.white,
-                                          ),
-                                        ]),
-                                    child: const Icon(
-                                      Icons.phone,
                                     ),
                                   ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Row(
+                                children: [
                                   const SizedBox(
-                                    width: 5,
+                                    width: 50,
+                                    child: Text(
+                                      " From",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
-                                  const Text(
-                                    "Call",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 15),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 4),
+                                      child: Text(
+                                        snapshot
+                                            .child('atime')
+                                            .value
+                                            .toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
-                              )),
-                        ],
-                      ),
-                      colorBackground: color),
+                              ),
+                              const Text(
+                                " •",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const Text(
+                                " •",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 50,
+                                    child: Text(
+                                      " Until",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 4),
+                                      child: Text(
+                                        snapshot
+                                            .child('ltime')
+                                            .value
+                                            .toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    rightChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Image.asset(
+                        //   widget.snapshot.child('sports').value.toString(),
+                        //   scale: 7,
+                        // ),
+                        const SizedBox(
+                          height: 7,
+                        ),
+                        Text(
+                          "₹${snapshot.child('amount').value}",
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Color.fromARGB(255, 218, 173, 37),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const Text(
+                          "(Pay At Location)",
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: Color.fromARGB(255, 218, 173, 37),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            _callNumber(snapshot.child('num').value.toString());
+                          },
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              Container(
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.white,
+                                      spreadRadius: 2,
+                                    ),
+                                    BoxShadow(
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                                child: const Icon(
+                                  Icons.phone,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Text(
+                                "Call",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    colorBackground: color,
+                  ),
                 )
               : Container();
         },

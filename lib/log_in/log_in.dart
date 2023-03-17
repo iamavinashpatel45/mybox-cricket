@@ -76,6 +76,17 @@ class _log_inState extends State<log_in> {
               (route) => false,
             );
           } else {
+            await FirebaseFirestore.instance
+                .collection('user_data')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .get()
+                .then((value) => {
+                      for (int i = 0; i < 5; i++)
+                        {
+                          add.setBool(account.sports_data![i]['name'],
+                              value.data()!['mysportdata'][i]),
+                        }
+                    });
             // ignore: use_build_context_synchronously
             Navigator.pushAndRemoveUntil(
               context,
@@ -103,6 +114,8 @@ class _log_inState extends State<log_in> {
           pressed = false;
           setState(() {});
           FirebaseAuth.instance.signOut();
+          // print("55555555555555555555");
+          // print(e.toString());
           Fluttertoast.showToast(msg: e.toString());
           Fluttertoast.showToast(
               msg: "Something Wrong,please try after some time");
