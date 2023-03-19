@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crave_cricket/account/account.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ticket_material/ticket_material.dart';
 
@@ -16,7 +16,7 @@ class allbooking extends StatefulWidget {
 }
 
 class _allbookingState extends State<allbooking> {
-  Color color = HexColor("#155E83");
+  Color color = account.color_1;
   bool load = true;
   List data = [];
 
@@ -65,6 +65,7 @@ class _allbookingState extends State<allbooking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: account.color_3,
       appBar: AppBar(
         title: const Text('Past Booking'),
         backgroundColor: color,
@@ -73,7 +74,7 @@ class _allbookingState extends State<allbooking> {
       body: load
           ? Center(
               child: SpinKitCubeGrid(
-                color: HexColor("#155E83"),
+                color: account.color_1,
                 size: 50.0,
               ),
             )
@@ -125,11 +126,11 @@ class _allbookingState extends State<allbooking> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text(
+                                    Text(
                                       'BASIC PASS',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.white,
+                                        color: account.color_3,
                                         fontSize: 15,
                                       ),
                                     ),
@@ -137,9 +138,9 @@ class _allbookingState extends State<allbooking> {
                                       padding: const EdgeInsets.only(right: 10),
                                       child: Text(
                                         x.sports,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 15,
-                                          color: Colors.white,
+                                          color: account.color_3,
                                         ),
                                       ),
                                     ),
@@ -150,19 +151,19 @@ class _allbookingState extends State<allbooking> {
                                   thickness: 2,
                                 ),
                                 Row(
-                                  children: const [
+                                  children: [
                                     Icon(
                                       Icons.timer_outlined,
-                                      color: Colors.white,
+                                      color: account.color_3,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     Text(
                                       'Slot(time)',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.white,
+                                        color: account.color_3,
                                         fontSize: 15,
                                       ),
                                     ),
@@ -170,12 +171,12 @@ class _allbookingState extends State<allbooking> {
                                 ),
                                 Row(
                                   children: [
-                                    const SizedBox(
+                                    SizedBox(
                                       width: 50,
                                       child: Text(
                                         " From",
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: account.color_3,
                                         ),
                                       ),
                                     ),
@@ -183,7 +184,7 @@ class _allbookingState extends State<allbooking> {
                                       decoration: BoxDecoration(
                                         color: Colors.black,
                                         border: Border.all(
-                                          color: Colors.white,
+                                          color: account.color_3,
                                         ),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -192,35 +193,35 @@ class _allbookingState extends State<allbooking> {
                                             horizontal: 8, vertical: 4),
                                         child: Text(
                                           x.atime,
-                                          style: const TextStyle(
-                                            color: Colors.white,
+                                          style: TextStyle(
+                                            color: account.color_3,
                                           ),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                                const Text(
+                                Text(
                                   " •",
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: account.color_3,
                                     fontSize: 15,
                                   ),
                                 ),
-                                const Text(
+                                Text(
                                   " •",
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: account.color_3,
                                   ),
                                 ),
                                 Row(
                                   children: [
-                                    const SizedBox(
+                                    SizedBox(
                                       width: 50,
                                       child: Text(
                                         " Until",
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: account.color_3,
                                         ),
                                       ),
                                     ),
@@ -228,7 +229,7 @@ class _allbookingState extends State<allbooking> {
                                       decoration: BoxDecoration(
                                         color: Colors.black,
                                         border: Border.all(
-                                          color: Colors.white,
+                                          color: account.color_3,
                                         ),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -237,8 +238,8 @@ class _allbookingState extends State<allbooking> {
                                             horizontal: 8, vertical: 4),
                                         child: Text(
                                           x.ltime,
-                                          style: const TextStyle(
-                                            color: Colors.white,
+                                          style: TextStyle(
+                                            color: account.color_3,
                                           ),
                                         ),
                                       ),
@@ -290,15 +291,15 @@ class _allbookingState extends State<allbooking> {
                                 ),
                                 Container(
                                   height: 40,
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.white,
+                                        color: account.color_3,
                                         spreadRadius: 2,
                                       ),
                                       BoxShadow(
-                                        color: Colors.white,
+                                        color: account.color_3,
                                       ),
                                     ],
                                   ),
@@ -309,10 +310,12 @@ class _allbookingState extends State<allbooking> {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                const Text(
+                                Text(
                                   "Call",
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 15),
+                                    color: account.color_3,
+                                    fontSize: 15,
+                                  ),
                                 ),
                               ],
                             ),
@@ -329,17 +332,18 @@ class _allbookingState extends State<allbooking> {
                                       ),
                                       Container(
                                         height: 40,
-                                        decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.white,
-                                                spreadRadius: 2,
-                                              ),
-                                              BoxShadow(
-                                                color: Colors.white,
-                                              ),
-                                            ]),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: account.color_3,
+                                              spreadRadius: 2,
+                                            ),
+                                            BoxShadow(
+                                              color: account.color_3,
+                                            ),
+                                          ],
+                                        ),
                                         child: const Icon(
                                           Icons.map,
                                         ),
@@ -347,10 +351,12 @@ class _allbookingState extends State<allbooking> {
                                       const SizedBox(
                                         width: 5,
                                       ),
-                                      const Text(
+                                      Text(
                                         "Map",
                                         style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
+                                          color: account.color_3,
+                                          fontSize: 15,
+                                        ),
                                       ),
                                     ],
                                   ),

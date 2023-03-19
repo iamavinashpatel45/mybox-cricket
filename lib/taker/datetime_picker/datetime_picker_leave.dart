@@ -5,7 +5,6 @@ import 'package:crave_cricket/taker/pay/pay.dart';
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:page_transition/page_transition.dart';
 
 class datetime_picker_leave extends StatefulWidget {
@@ -18,7 +17,7 @@ class datetime_picker_leave extends StatefulWidget {
 class _datetime_picker_leaveState extends State<datetime_picker_leave> {
   final _key = GlobalKey<FormState>();
   DateTime datetime = DateTime.now();
-  Color color = HexColor("#155E83");
+  Color color = account.color_1;
   var data = [];
 
   Future<bool> checkslot(DateTime time) async {
@@ -89,9 +88,9 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
                   width: (MediaQuery.of(context).size.width - 20) / 2,
                   child: Text(
                     booking_details.address!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      color: account.color_3,
                     ),
                   ),
                 ),
@@ -102,10 +101,10 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
                     children: [
                       Text(
                         booking_details.sportsname!,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 20,
-                          color: Colors.white,
+                          color: account.color_3,
                         ),
                       ),
                       Image.asset(
@@ -124,7 +123,7 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
       bottomNavigationBar: Container(
         height: 380,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: account.color_3,
           border: Border.all(color: Colors.black, width: 1),
           borderRadius: const BorderRadius.only(
             topRight: Radius.circular(15),
@@ -137,11 +136,12 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
             const SizedBox(
               height: 10,
             ),
-            const Text(
+            Text(
               "When Do You want to leave?",
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 20,
+                color: account.color_1,
               ),
             ),
             const SizedBox(
@@ -149,9 +149,7 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
             ),
             Text(
               "Starting ${booking_details.a_date!.day}-${booking_details.a_date!.month}-${booking_details.a_date!.year} at $a_time",
-              style: const TextStyle(
-                fontSize: 15,
-              ),
+              style: TextStyle(fontSize: 15, color: account.color_1),
             ),
             DateTimePicker(
               key: _key,

@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:crave_cricket/account/account.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -6,10 +8,15 @@ import 'package:flutter_flip_card/flipcard/gesture_flip_card.dart';
 import 'package:flutter_flip_card/modal/flip_side.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share/share.dart';
 import 'package:ticket_material/ticket_material.dart';
+
+ScreenshotController screenshotController = ScreenshotController();
 
 class booked extends StatefulWidget {
   const booked({Key? key}) : super(key: key);
@@ -19,7 +26,7 @@ class booked extends StatefulWidget {
 }
 
 class _bookedState extends State<booked> {
-  Color color = HexColor("#155E83");
+  Color color = account.color_1;
   bool go = true;
   String uid = FirebaseAuth.instance.currentUser!.uid;
   DatabaseReference db = FirebaseDatabase.instance
@@ -36,6 +43,7 @@ class _bookedState extends State<booked> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: account.color_3,
       appBar: AppBar(
         title: const Text("Booked Slot"),
         backgroundColor: color,
@@ -79,6 +87,7 @@ class _bookedState extends State<booked> {
                             ),
                             rightChild: rightside(
                               snapshot: snapshot,
+                              side: true,
                             ),
                             colorBackground: color,
                           ),
@@ -91,6 +100,7 @@ class _bookedState extends State<booked> {
                             ),
                             rightChild: rightside(
                               snapshot: snapshot,
+                              side: false,
                             ),
                             colorBackground: color,
                           ),
@@ -118,12 +128,15 @@ class _leftside_backState extends State<leftside_back> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: QrImage(
-        data: widget.snapshot,
-        foregroundColor: Colors.white,
-        embeddedImage: const AssetImage('assets/logo__.png'),
-        embeddedImageStyle: QrEmbeddedImageStyle(
-          size: const Size(70, 70),
+      child: Screenshot(
+        controller: screenshotController,
+        child: QrImage(
+          data: widget.snapshot,
+          foregroundColor: account.color_3,
+          embeddedImage: const AssetImage('assets/logo__.png'),
+          embeddedImageStyle: QrEmbeddedImageStyle(
+            size: const Size(70, 70),
+          ),
         ),
       ),
     );
@@ -174,11 +187,11 @@ class _leftside_upState extends State<leftside_up> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'BASIC PASS',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      color: account.color_3,
                       fontSize: 15,
                     ),
                   ),
@@ -186,9 +199,9 @@ class _leftside_upState extends State<leftside_up> {
                     padding: const EdgeInsets.only(right: 10),
                     child: Text(
                       widget.snapshot.child('sports').value.toString(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
-                        color: Colors.white,
+                        color: account.color_3,
                       ),
                     ),
                   ),
@@ -199,19 +212,19 @@ class _leftside_upState extends State<leftside_up> {
                 thickness: 2,
               ),
               Row(
-                children: const [
+                children: [
                   Icon(
                     Icons.timer_outlined,
-                    color: Colors.white,
+                    color: account.color_3,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
                     'Slot(time)',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      color: account.color_3,
                       fontSize: 15,
                     ),
                   ),
@@ -219,12 +232,12 @@ class _leftside_upState extends State<leftside_up> {
               ),
               Row(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 50,
                     child: Text(
                       " From",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: account.color_3,
                       ),
                     ),
                   ),
@@ -232,7 +245,7 @@ class _leftside_upState extends State<leftside_up> {
                     decoration: BoxDecoration(
                       color: Colors.black,
                       border: Border.all(
-                        color: Colors.white,
+                        color: account.color_3,
                       ),
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -241,35 +254,35 @@ class _leftside_upState extends State<leftside_up> {
                           horizontal: 8, vertical: 4),
                       child: Text(
                         widget.snapshot.child('atime').value.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: account.color_3,
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-              const Text(
+              Text(
                 " •",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: account.color_3,
                   fontSize: 15,
                 ),
               ),
-              const Text(
+              Text(
                 " •",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: account.color_3,
                 ),
               ),
               Row(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 50,
                     child: Text(
                       " Until",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: account.color_3,
                       ),
                     ),
                   ),
@@ -277,7 +290,7 @@ class _leftside_upState extends State<leftside_up> {
                     decoration: BoxDecoration(
                       color: Colors.black,
                       border: Border.all(
-                        color: Colors.white,
+                        color: account.color_3,
                       ),
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -286,8 +299,8 @@ class _leftside_upState extends State<leftside_up> {
                           horizontal: 8, vertical: 4),
                       child: Text(
                         widget.snapshot.child('ltime').value.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: account.color_3,
                         ),
                       ),
                     ),
@@ -304,14 +317,40 @@ class _leftside_upState extends State<leftside_up> {
 
 class rightside extends StatefulWidget {
   final DataSnapshot snapshot;
+  final bool side;
 
-  const rightside({Key? key, required this.snapshot}) : super(key: key);
+  const rightside({
+    Key? key,
+    required this.snapshot,
+    required this.side,
+  }) : super(key: key);
 
   @override
   State<rightside> createState() => _rightsideState();
 }
 
 class _rightsideState extends State<rightside> {
+  _shareQrCode(String add) async {
+    final directory = (await getApplicationDocumentsDirectory()).path;
+    screenshotController.capture().then((image) async {
+      if (image != null) {
+        try {
+          String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+          final imagePath = await File('$directory/$fileName.png').create();
+          if (imagePath != null) {
+            imagePath.writeAsBytes(image);
+            Share.shareFiles(
+              [imagePath.path],
+              text: add,
+            );
+          }
+        } catch (error) {}
+      }
+    }).catchError((onError) {
+      Fluttertoast.showToast(msg: "Something wrong!!");
+    });
+  }
+
   _callNumber(String num) async {
     await FlutterPhoneDirectCaller.callNumber(num);
   }
@@ -358,16 +397,18 @@ class _rightsideState extends State<rightside> {
               ),
               Container(
                 height: 40,
-                decoration:
-                    const BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                  BoxShadow(
-                    color: Colors.white,
-                    spreadRadius: 2,
-                  ),
-                  BoxShadow(
-                    color: Colors.white,
-                  ),
-                ]),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: account.color_3,
+                      spreadRadius: 2,
+                    ),
+                    BoxShadow(
+                      color: account.color_3,
+                    ),
+                  ],
+                ),
                 child: const Icon(
                   Icons.phone,
                 ),
@@ -375,9 +416,12 @@ class _rightsideState extends State<rightside> {
               const SizedBox(
                 width: 5,
               ),
-              const Text(
+              Text(
                 "Call",
-                style: TextStyle(color: Colors.white, fontSize: 15),
+                style: TextStyle(
+                  color: account.color_3,
+                  fontSize: 15,
+                ),
               ),
             ],
           ),
@@ -394,16 +438,18 @@ class _rightsideState extends State<rightside> {
               ),
               Container(
                 height: 40,
-                decoration:
-                    const BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                  BoxShadow(
-                    color: Colors.white,
-                    spreadRadius: 2,
-                  ),
-                  BoxShadow(
-                    color: Colors.white,
-                  ),
-                ]),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: account.color_3,
+                      spreadRadius: 2,
+                    ),
+                    BoxShadow(
+                      color: account.color_3,
+                    ),
+                  ],
+                ),
                 child: const Icon(
                   Icons.map,
                 ),
@@ -411,13 +457,70 @@ class _rightsideState extends State<rightside> {
               const SizedBox(
                 width: 5,
               ),
-              const Text(
+              Text(
                 "Map",
-                style: TextStyle(color: Colors.white, fontSize: 15),
+                style: TextStyle(
+                  color: account.color_3,
+                  fontSize: 15,
+                ),
               ),
             ],
           ),
-        )
+        ),
+        !widget.side
+            ? InkWell(
+                onTap: () {
+                  _shareQrCode(widget.snapshot.child('address').value.toString());
+                },
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: account.color_3,
+                            spreadRadius: 2,
+                          ),
+                          BoxShadow(
+                            color: account.color_3,
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.share,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Share",
+                          style: TextStyle(
+                            color: account.color_3,
+                            fontSize: 10,
+                          ),
+                        ),
+                        Text(
+                          "Qrcode",
+                          style: TextStyle(
+                            color: account.color_3,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            : Container(),
       ],
     );
   }

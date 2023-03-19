@@ -74,12 +74,15 @@ class _splashState extends State<splash> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const t_home(setmarker: 1,),
+              builder: (context) => const t_home(
+                setmarker: 1,
+              ),
             ),
           );
         } else {
           for (int i = 0; i < 5; i++) {
-            account.mysportdata_![i] = get.getBool(account.sports_data![i]['name'])!;
+            account.mysportdata_![i] =
+                get.getBool(account.sports_data![i]['name'])!;
           }
           //account.list_ = get.getStringList("list");
           // ignore: use_build_context_synchronously
@@ -111,6 +114,7 @@ class _splashState extends State<splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: account.color_3,
       body: Center(
         child: Image.asset(
           "assets/logo__.png",

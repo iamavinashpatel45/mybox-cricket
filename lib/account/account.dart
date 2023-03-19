@@ -1,7 +1,9 @@
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:location/location.dart';
 
 class account {
@@ -10,7 +12,7 @@ class account {
   static String? email_;
   static String? pass_;
   static String? num_;
-  static List<bool>? mysportdata_=[
+  static List<bool>? mysportdata_ = [
     false,
     false,
     false,
@@ -33,6 +35,9 @@ class account {
   static List<Marker> m3 = [];
   static List<Marker> m4 = [];
   static List<Marker> m5 = [];
+  static Color color_1 = HexColor("#0B5269");
+  static Color color_2 = HexColor("#02B5D9");
+  static Color color_3 = HexColor("#F4F7FB");
 
   String? fname;
   String? lname;
@@ -130,8 +135,8 @@ class fun {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
     Placemark place = placemarks[0];
-    if (place.locality!.isEmpty || place.thoroughfare!.isEmpty) {
-      return '${place.street}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.postalCode}';
+    if (place.street!.isNotEmpty) {
+      return '${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.postalCode}';
     } else {
       return '${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.postalCode}';
     }
@@ -287,7 +292,7 @@ class fun {
     for (int j = 0; j < account.v5.length; j++) {
       account.m5.add(
         Marker(
-          markerId: MarkerId(account.v1[j][3]),
+          markerId: MarkerId(account.v5[j][3]),
           index: j,
           position: LatLng(
             double.parse(

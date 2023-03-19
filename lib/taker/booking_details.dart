@@ -47,7 +47,7 @@ class booking_details {
       Map<String, String> data = {
         "t_id": uid,
         "g_id": g_id,
-        "sports": account.sports_data![booking_details.sport_type]['name'],
+        "sports": account.sports_data![booking_details.sport_type - 1]['name'],
         "address": booking_details.address!,
         "num": g_num!,
         "atime": a_time,
@@ -84,7 +84,7 @@ class booking_details {
         "lname": account.lname_!,
         "t_id": uid,
         "g_id": g_id,
-        "sports": account.sports_data![booking_details.sport_type]['name'],
+        "sports": account.sports_data![booking_details.sport_type - 1]['name'],
         "address": booking_details.address!,
         "num": account.num_!,
         "atime": a_time,
@@ -117,7 +117,7 @@ class booking_details {
               });
       data = {
         "t_id": uid,
-        "sports": account.sports_data![booking_details.sport_type]['name'],
+        "sports": account.sports_data![booking_details.sport_type - 1]['name'],
         "random": random,
         'arrive': booking_details.a_time.toString(),
         "leave": booking_details.l_time.toString(),

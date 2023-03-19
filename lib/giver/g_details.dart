@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
@@ -28,7 +27,7 @@ class g_details extends StatefulWidget {
 
 class _g_detailsState extends State<g_details> {
   List<File> images = [];
-  Color color = HexColor("#155E83");
+  Color color = account.color_1;
   bool press = false;
   bool cir = false;
   bool press_but = false;
@@ -65,8 +64,8 @@ class _g_detailsState extends State<g_details> {
     for (int i = 0; i < images.length; i++) {
       var res = await FirebaseStorage.instance
           .ref()
-          .child(
-              "myboxcricket/${account.fname_!}" "${account.lname_!}/${i.toString()}")
+          .child("myboxcricket/${account.fname_!}"
+              "${account.lname_!}/${i.toString()}")
           .putFile(images[i]);
       var a = await res.ref.getDownloadURL();
       imageurls.add(a);
@@ -191,10 +190,12 @@ class _g_detailsState extends State<g_details> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(
+        iconTheme: IconThemeData(color: account.color_1),
+        title: Text(
           "Enter your details",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: account.color_1,
+          ),
         ),
       ),
       body: Stack(
@@ -215,6 +216,7 @@ class _g_detailsState extends State<g_details> {
                             pickupimages();
                           }),
                           child: DottedBorder(
+                            color: account.color_1,
                             borderType: BorderType.RRect,
                             radius: const Radius.circular(10),
                             strokeCap: StrokeCap.round,
@@ -230,18 +232,20 @@ class _g_detailsState extends State<g_details> {
                                     size: 35,
                                   ),
                                   widget.update
-                                      ? const Text(
+                                      ? Text(
                                           "Add more Product Images",
                                           style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.w500,
+                                            color: account.color_1,
                                           ),
                                         )
-                                      : const Text(
+                                      : Text(
                                           "Select Product Images",
                                           style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.w500,
+                                            color: account.color_1,
                                           ),
                                         ),
                                 ],
@@ -252,11 +256,12 @@ class _g_detailsState extends State<g_details> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text(
+                  Text(
                     "Select Sports",
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 20,
+                      color: account.color_1,
                     ),
                   ),
                   ListView.builder(
@@ -288,8 +293,9 @@ class _g_detailsState extends State<g_details> {
                                       account.sports_data![index]['image']),
                                   title: Text(
                                     account.sports_data![index]['name'],
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontWeight: FontWeight.w400,
+                                      color: account.color_1,
                                     ),
                                   ),
                                   // subtitle: Text(
@@ -359,16 +365,15 @@ class _g_detailsState extends State<g_details> {
                                 height: 50,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 78, 120, 198),
+                                  color: account.color_1,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Text(
                                   widget.update ? 'Update' : 'Add Details',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
-                                    color: Colors.white,
+                                    color: account.color_3,
                                   ),
                                 ),
                               ),

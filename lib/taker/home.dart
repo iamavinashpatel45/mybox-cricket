@@ -6,7 +6,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:location/location.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -27,7 +26,6 @@ class _t_homeState extends State<t_home> {
   int index = 0;
   final GlobalKey<ScaffoldState> _drawerscaffoldkey =
       GlobalKey<ScaffoldState>();
-  Color color = HexColor("#155E83");
   GoogleMapController? _controller;
   LocationData? livelocation;
   List<Marker>? marker;
@@ -64,7 +62,6 @@ class _t_homeState extends State<t_home> {
       };
     }
   }
-
 
   Future getlocation() async {
     add_ontap();
@@ -119,7 +116,7 @@ class _t_homeState extends State<t_home> {
                     height: 10,
                   ),
                   SpinKitThreeBounce(
-                    color: color,
+                    color: account.color_1,
                     size: 50.0,
                   ),
                 ],
@@ -136,7 +133,7 @@ class _t_homeState extends State<t_home> {
               minHeight: min_height,
               panel: Container(
                 height: 150,
-                color: Colors.black.withOpacity(0),
+                color: account.color_3,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -146,11 +143,14 @@ class _t_homeState extends State<t_home> {
                             child: Container(
                               height: 70,
                               decoration: BoxDecoration(
+                                color: account.color_3,
                                 borderRadius: const BorderRadius.only(
                                   topRight: Radius.circular(15),
                                   topLeft: Radius.circular(15),
                                 ),
-                                border: Border.all(color: Colors.black),
+                                border: Border.all(
+                                  color: account.color_1,
+                                ),
                               ),
                               child: Padding(
                                 padding:
@@ -166,7 +166,7 @@ class _t_homeState extends State<t_home> {
                                         booking_details.address!,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
-                                          color: color,
+                                          color: account.color_1,
                                         ),
                                       ),
                                     ),
@@ -189,7 +189,7 @@ class _t_homeState extends State<t_home> {
                                         height: 45,
                                         width: 120,
                                         decoration: BoxDecoration(
-                                          color: color,
+                                          color: account.color_1,
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           border: Border.all(
@@ -197,12 +197,13 @@ class _t_homeState extends State<t_home> {
                                             width: 1,
                                           ),
                                         ),
-                                        child: const Center(
+                                        child: Center(
                                           child: Text(
                                             'Book',
                                             style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white),
+                                              fontSize: 20,
+                                              color: account.color_3,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -218,6 +219,7 @@ class _t_homeState extends State<t_home> {
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: DottedBorder(
+                        color: account.color_1,
                         borderType: BorderType.RRect,
                         radius: const Radius.circular(10),
                         strokeCap: StrokeCap.round,
@@ -264,13 +266,13 @@ class _t_homeState extends State<t_home> {
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.white,
                             border: Border.all(
-                              color: Colors.black,
+                              color: account.color_1,
                               width: 0.5,
                             )),
                         child: Center(
                           child: Icon(
                             Icons.menu,
-                            color: color,
+                            color: account.color_1,
                           ),
                         ),
                       ),

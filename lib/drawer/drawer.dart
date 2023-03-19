@@ -7,8 +7,8 @@ import 'package:crave_cricket/taker/sport_select/t_select.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:vibration/vibration.dart';
 import '../taker/booked/booked.dart';
 
 class drawer extends StatelessWidget {
@@ -18,14 +18,18 @@ class drawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = HexColor("#155E83");
+    Color color = account.color_1;
     return Drawer(
+      backgroundColor: account.color_3,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             children: <Widget>[
               UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                  color: account.color_1,
+                ),
                 accountName: Text("${account.fname_!} ${account.lname_!}"),
                 accountEmail: Text(account.email_!),
                 // currentAccountPicture: CircleAvatar(
@@ -34,8 +38,16 @@ class drawer extends StatelessWidget {
                 // ),
               ),
               ListTile(
-                leading: const Icon(Icons.home),
-                title: const Text("Home"),
+                leading: Icon(
+                  Icons.home,
+                  color: account.color_1,
+                ),
+                title: Text(
+                  "Home",
+                  style: TextStyle(
+                    color: account.color_1,
+                  ),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -44,8 +56,16 @@ class drawer extends StatelessWidget {
                   ? Column(
                       children: [
                         ListTile(
-                          leading: const Icon(Icons.update),
-                          title: const Text("Update Data"),
+                          leading: Icon(
+                            Icons.update,
+                            color: account.color_1,
+                          ),
+                          title: Text(
+                            "Update Data",
+                            style: TextStyle(
+                              color: account.color_1,
+                            ),
+                          ),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -59,8 +79,16 @@ class drawer extends StatelessWidget {
                           },
                         ),
                         ListTile(
-                          leading: const Icon(Icons.list),
-                          title: const Text("Past Booking"),
+                          leading: Icon(
+                            Icons.list,
+                            color: account.color_1,
+                          ),
+                          title: Text(
+                            "Past Booking",
+                            style: TextStyle(
+                              color: account.color_1,
+                            ),
+                          ),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -73,8 +101,16 @@ class drawer extends StatelessWidget {
                           },
                         ),
                         ListTile(
-                          leading: const Icon(Icons.qr_code_scanner),
-                          title: const Text("Scan Qr Code"),
+                          leading: Icon(
+                            Icons.qr_code_scanner,
+                            color: account.color_1,
+                          ),
+                          title: Text(
+                            "Scan Qr Code",
+                            style: TextStyle(
+                              color: account.color_1,
+                            ),
+                          ),
                           onTap: () async {
                             bool mybox = false;
                             String result =
@@ -91,6 +127,7 @@ class drawer extends StatelessWidget {
                                   break;
                                 }
                               }
+                              Vibration.vibrate(duration: 500);
                               if (mybox) {
                                 QuickAlert.show(
                                   context: context,
@@ -114,8 +151,16 @@ class drawer extends StatelessWidget {
                   : Column(
                       children: [
                         ListTile(
-                          leading: const Icon(Icons.my_library_books),
-                          title: const Text("My Booking"),
+                          leading: Icon(
+                            Icons.my_library_books,
+                            color: account.color_1,
+                          ),
+                          title: Text(
+                            "My Booking",
+                            style: TextStyle(
+                              color: account.color_1,
+                            ),
+                          ),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -126,8 +171,16 @@ class drawer extends StatelessWidget {
                           },
                         ),
                         ListTile(
-                          leading: const Icon(Icons.list),
-                          title: const Text("Past Booking"),
+                          leading: Icon(
+                            Icons.list,
+                            color: account.color_1,
+                          ),
+                          title: Text(
+                            "Past Booking",
+                            style: TextStyle(
+                              color: account.color_1,
+                            ),
+                          ),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -140,10 +193,17 @@ class drawer extends StatelessWidget {
                           },
                         ),
                         ListTile(
-                          leading: const Icon(Icons.sports),
-                          title: Text(account
-                                  .sports_data![booking_details.sport_type - 1]
-                              ['name']),
+                          leading: Icon(
+                            Icons.sports,
+                            color: account.color_1,
+                          ),
+                          title: Text(
+                            account.sports_data![booking_details.sport_type - 1]
+                                ['name'],
+                            style: TextStyle(
+                              color: account.color_1,
+                            ),
+                          ),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -160,8 +220,16 @@ class drawer extends StatelessWidget {
           Column(
             children: [
               ListTile(
-                leading: const Icon(Icons.logout),
-                title: const Text("Log Out"),
+                leading: Icon(
+                  Icons.logout,
+                  color: account.color_1,
+                ),
+                title: Text(
+                  "Log Out",
+                  style: TextStyle(
+                    color: account.color_1,
+                  ),
+                ),
                 onTap: () {
                   FirebaseAuth.instance.signOut();
                   Navigator.pushAndRemoveUntil(
@@ -176,8 +244,16 @@ class drawer extends StatelessWidget {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.contacts),
-                title: const Text("Contact Us"),
+                leading: Icon(
+                  Icons.contacts,
+                  color: account.color_1,
+                ),
+                title: Text(
+                  "Contact Us",
+                  style: TextStyle(
+                    color: account.color_1,
+                  ),
+                ),
                 onTap: () {},
               ),
             ],

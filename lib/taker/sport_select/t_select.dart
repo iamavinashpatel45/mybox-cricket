@@ -1,7 +1,6 @@
 import 'package:crave_cricket/account/account.dart';
 import 'package:crave_cricket/taker/home.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import '../booking_details.dart';
 
 class t_select extends StatefulWidget {
@@ -10,11 +9,11 @@ class t_select extends StatefulWidget {
 }
 
 class _t_selectState extends State<t_select> {
-  Color color = HexColor("#155E83");
+  Color color = account.color_1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: account.color_3,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,

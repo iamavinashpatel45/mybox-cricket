@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class sign_up extends StatefulWidget {
@@ -20,7 +19,7 @@ class sign_up extends StatefulWidget {
 }
 
 class _sign_upState extends State<sign_up> {
-  Color color = HexColor("#155E83");
+  Color color = account.color_1; //HexColor("#155E83");
   final _key = GlobalKey<FormState>();
   bool pressed = false;
   String? email;
@@ -159,11 +158,12 @@ class _sign_upState extends State<sign_up> {
                 scale: 2.2,
               ),
             ),
-            const Text(
+            Text(
               'Register with MyBox Cricket',
               style: TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 23,
+                fontSize: 20,
+                color: account.color_1,
               ),
             ),
             const SizedBox(
@@ -190,22 +190,27 @@ class _sign_upState extends State<sign_up> {
                         return null;
                       },
                       decoration: InputDecoration(
-                          focusColor: Colors.grey,
-                          fillColor: Colors.grey,
-                          hintText: "First name",
-                          labelText: "First name",
-                          labelStyle: const TextStyle(color: Colors.black),
-                          prefixIcon: const Icon(
-                            Icons.person_rounded,
-                            color: Colors.grey,
+                        focusColor: Colors.grey,
+                        fillColor: Colors.grey,
+                        hintText: "First name",
+                        labelText: "First name",
+                        labelStyle: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.person_rounded,
+                          color: Colors.grey,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.black,
                           ),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                                  const BorderSide(color: Colors.black)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
@@ -221,22 +226,27 @@ class _sign_upState extends State<sign_up> {
                         return null;
                       },
                       decoration: InputDecoration(
-                          focusColor: Colors.grey,
-                          fillColor: Colors.grey,
-                          hintText: "Last name",
-                          labelText: "Last name",
-                          labelStyle: const TextStyle(color: Colors.black),
-                          prefixIcon: const Icon(
-                            Icons.person_rounded,
-                            color: Colors.grey,
+                        focusColor: Colors.grey,
+                        fillColor: Colors.grey,
+                        hintText: "Last name",
+                        labelText: "Last name",
+                        labelStyle: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.person_rounded,
+                          color: Colors.grey,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.black,
                           ),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                                  const BorderSide(color: Colors.black)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
@@ -256,22 +266,27 @@ class _sign_upState extends State<sign_up> {
                       },
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                          focusColor: Colors.grey,
-                          fillColor: Colors.grey,
-                          hintText: "email",
-                          labelText: "email",
-                          labelStyle: const TextStyle(color: Colors.black),
-                          prefixIcon: const Icon(
-                            Icons.email_rounded,
-                            color: Colors.grey,
+                        focusColor: Colors.grey,
+                        fillColor: Colors.grey,
+                        hintText: "email",
+                        labelText: "email",
+                        labelStyle: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.email_rounded,
+                          color: Colors.grey,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.black,
                           ),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                                  const BorderSide(color: Colors.black)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
@@ -291,22 +306,25 @@ class _sign_upState extends State<sign_up> {
                       },
                       obscureText: true,
                       decoration: InputDecoration(
-                          focusColor: Colors.grey,
-                          fillColor: Colors.grey,
-                          hintText: "password",
-                          labelText: "password",
-                          labelStyle: const TextStyle(color: Colors.black),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                                  const BorderSide(color: Colors.black)),
-                          prefixIcon: const Icon(
-                            Icons.security,
-                            color: Colors.grey,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )),
+                        focusColor: Colors.grey,
+                        fillColor: Colors.grey,
+                        hintText: "password",
+                        labelText: "password",
+                        labelStyle: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(color: Colors.black),
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.security,
+                          color: Colors.grey,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
@@ -323,22 +341,27 @@ class _sign_upState extends State<sign_up> {
                       },
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
-                          focusColor: Colors.grey,
-                          fillColor: Colors.grey,
-                          hintText: "phone number",
-                          labelText: "phone number",
-                          labelStyle: const TextStyle(color: Colors.black),
-                          prefixIcon: const Icon(
-                            Icons.phone,
-                            color: Colors.grey,
+                        focusColor: Colors.grey,
+                        fillColor: Colors.grey,
+                        hintText: "phone number",
+                        labelText: "phone number",
+                        labelStyle: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.phone,
+                          color: Colors.grey,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.black,
                           ),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                                  const BorderSide(color: Colors.black)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 10,

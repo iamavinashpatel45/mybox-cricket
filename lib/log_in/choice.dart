@@ -1,6 +1,6 @@
+import 'package:crave_cricket/account/account.dart';
 import 'package:crave_cricket/log_in/sign_up.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'log_in.dart';
 
 class choice extends StatefulWidget {
@@ -16,11 +16,11 @@ class _choiceState extends State<choice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: account.color_3,
       appBar: AppBar(
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
+        backgroundColor: account.color_3,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -42,22 +42,24 @@ class _choiceState extends State<choice> {
               height: widget.choise == true ? 0 : 20,
             ),
             widget.choise == false
-                ? const Text(
+                ? Text(
                     "Thank you for Joining with Us",
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
                       fontSize: 20,
+                      color: account.color_1,
                     ),
                   )
                 : Container(),
             const SizedBox(
               height: 20,
             ),
-            const Text(
+            Text(
               "You need to log in or create an account to continue.",
               style: TextStyle(
                 fontWeight: FontWeight.w300,
                 fontSize: 20,
+                color: account.color_1,
               ),
             ),
             const SizedBox(
@@ -78,19 +80,20 @@ class _choiceState extends State<choice> {
                 height: 50,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    color: HexColor("#155E83"),
+                    color: account.color_1,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: Colors.black,
                       width: 1,
                     )),
-                child: const Center(
+                child: Center(
                     child: Text(
                   "Log in with email",
                   style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
-                      color: Colors.white),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
+                    color: account.color_3,
+                  ),
                 )),
               ),
             ),
@@ -112,17 +115,17 @@ class _choiceState extends State<choice> {
                 height: 50,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    color: HexColor("#155E83"),
+                    color: account.color_1,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: Colors.black,
                       width: 1,
                     )),
-                child: const Center(
+                child: Center(
                     child: Text(
                   "Create account with email",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: account.color_3,
                     fontWeight: FontWeight.w400,
                     fontSize: 18,
                   ),
@@ -142,12 +145,13 @@ class _choiceState extends State<choice> {
                         InkWell(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        const choice(
-                                          choise: false,
-                                        )));
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) => const choice(
+                                  choise: false,
+                                ),
+                              ),
+                            );
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 10),
@@ -156,11 +160,13 @@ class _choiceState extends State<choice> {
                                 Image.asset(
                                   'assets/join.png',
                                   scale: 1,
+                                  color: account.color_1,
                                 ),
-                                const Text(
+                                Text(
                                   "Join With Us",
                                   style: TextStyle(
                                     fontSize: 18,
+                                    color: account.color_1,
                                   ),
                                 ),
                               ],

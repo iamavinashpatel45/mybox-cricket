@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../giver/home.dart';
 
@@ -19,12 +18,26 @@ class log_in extends StatefulWidget {
 }
 
 class _log_inState extends State<log_in> {
-  Color color = HexColor("#155E83");
+  Color color = account.color_1;
   final _key = GlobalKey<FormState>();
   bool pressed = false;
-  String? email;
+  String? email='';
   String? pass;
   String? num;
+
+  forgot_password() async {
+    if (email!.isEmpty) {
+      Fluttertoast.showToast(msg: "enter email");
+    } else if (!email!.contains("@") || !email!.contains(".")) {
+      Fluttertoast.showToast(msg: "please enter valid email");
+    } else {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: email!)
+          .then((value) => {
+                Fluttertoast.showToast(msg: "Password reset link send"),
+              });
+    }
+  }
 
   gohome() async {
     if (_key.currentState!.validate()) {
@@ -34,7 +47,6 @@ class _log_inState extends State<log_in> {
       });
       if (await fun.checkInternet()) {
         try {
-          String x;
           SharedPreferences add = await SharedPreferences.getInstance();
           await FirebaseAuth.instance
               .signInWithEmailAndPassword(email: email!, password: pass!);
@@ -114,8 +126,6 @@ class _log_inState extends State<log_in> {
           pressed = false;
           setState(() {});
           FirebaseAuth.instance.signOut();
-          // print("55555555555555555555");
-          // print(e.toString());
           Fluttertoast.showToast(msg: e.toString());
           Fluttertoast.showToast(
               msg: "Something Wrong,please try after some time");
@@ -129,7 +139,7 @@ class _log_inState extends State<log_in> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: account.color_3,
       appBar: AppBar(
         title: const Text("Log In"),
         elevation: 0,
@@ -150,132 +160,171 @@ class _log_inState extends State<log_in> {
                 scale: 2.2,
               ),
             ),
-            const Text(
+            Text(
               'Login Now',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 25,
+                color: account.color_1,
               ),
             ),
             const SizedBox(
               height: 10,
             ),
-            const Text(
+            Text(
               "Please enter the Details below to continue",
               style: TextStyle(
-                color: Colors.grey,
+                color: account.color_1,
                 fontSize: 13,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
               child: Form(
-                  key: _key,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        onChanged: (value) {
-                          email = value;
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Please enter email";
-                          }
-                          if (!value.contains("@") || !value.contains(".")) {
-                            return "please enter valid email";
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                            focusColor: Colors.grey,
-                            fillColor: Colors.grey,
-                            hintText: "email",
-                            labelText: "email",
-                            labelStyle: const TextStyle(color: Colors.black),
-                            prefixIcon: const Icon(
-                              Icons.person_rounded,
-                              color: Colors.grey,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    const BorderSide(color: Colors.black)),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
+                key: _key,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      onChanged: (value) {
+                        email = value;
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter email";
+                        }
+                        if (!value.contains("@") || !value.contains(".")) {
+                          return "please enter valid email";
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        focusColor: Colors.grey,
+                        fillColor: Colors.grey,
+                        hintText: "email",
+                        labelText: "email",
+                        labelStyle: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.person_rounded,
+                          color: Colors.grey,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      const SizedBox(
-                        height: 20,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      onChanged: (value) {
+                        pass = value;
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "please enter password";
+                        }
+                        if (value.length < 9) {
+                          return "password contain 8 characters";
+                        }
+                        return null;
+                      },
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        focusColor: Colors.grey,
+                        fillColor: Colors.grey,
+                        hintText: "password",
+                        labelText: "password",
+                        labelStyle: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: Colors.black,
+                          ),
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.security,
+                          color: Colors.grey,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      TextFormField(
-                        onChanged: (value) {
-                          pass = value;
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "please enter password";
-                          }
-                          if (value.length < 9) {
-                            return "password contain 8 characters";
-                          }
-                          return null;
-                        },
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            focusColor: Colors.grey,
-                            fillColor: Colors.grey,
-                            hintText: "password",
-                            labelText: "password",
-                            labelStyle: const TextStyle(color: Colors.black),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    const BorderSide(color: Colors.black)),
-                            prefixIcon: const Icon(
-                              Icons.security,
-                              color: Colors.grey,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      pressed
-                          ? SpinKitCircle(
-                              color: color,
-                              size: 50.0,
-                            )
-                          : Material(
-                              elevation: 5,
-                              borderRadius: BorderRadius.circular(10),
-                              child: InkWell(
-                                onTap: () {
-                                  gohome();
-                                },
-                                child: Container(
-                                  width: 100,
-                                  height: 50,
-                                  child: const Text(
-                                    'Login',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: color,
-                                    borderRadius: BorderRadius.circular(10),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    pressed
+                        ? SpinKitCircle(
+                            color: color,
+                            size: 50.0,
+                          )
+                        : Material(
+                            elevation: 5,
+                            borderRadius: BorderRadius.circular(10),
+                            child: InkWell(
+                              onTap: () {
+                                gohome();
+                              },
+                              child: Container(
+                                width: 100,
+                                height: 50,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: color,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: account.color_3,
                                   ),
                                 ),
                               ),
                             ),
-                    ],
-                  )),
+                          ),
+                    const SizedBox(
+                      height: 100,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              forgot_password();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Text(
+                                "Forgot Password",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: account.color_1,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
           ],
         ),
