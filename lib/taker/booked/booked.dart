@@ -16,8 +16,6 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share/share.dart';
 import 'package:ticket_material/ticket_material.dart';
 
-ScreenshotController screenshotController = ScreenshotController();
-
 class booked extends StatefulWidget {
   const booked({Key? key}) : super(key: key);
 
@@ -32,10 +30,10 @@ class _bookedState extends State<booked> {
   DatabaseReference db = FirebaseDatabase.instance
       .ref("booking(user)/${FirebaseAuth.instance.currentUser!.uid}");
 
-  delete_data(String key) async {
-    DatabaseReference db_delete = FirebaseDatabase.instance
+  _delete_data(String key) async {
+    DatabaseReference _db_delete = FirebaseDatabase.instance
         .ref("booking(user)/${FirebaseAuth.instance.currentUser!.uid}/$key");
-    await db_delete.remove().then((value) => () {
+    await _db_delete.remove().then((value) => () {
           go = false;
         });
   }
@@ -67,7 +65,8 @@ class _bookedState extends State<booked> {
               ),
             )
                 ? () {}
-                : delete_data(snapshot.key!);
+                : _delete_data(snapshot.key!);
+            ScreenshotController screenshotController = ScreenshotController();
             return go
                 ? Column(
                     children: [
@@ -88,6 +87,7 @@ class _bookedState extends State<booked> {
                             rightChild: rightside(
                               snapshot: snapshot,
                               side: true,
+                              screenshotController: screenshotController,
                             ),
                             colorBackground: color,
                           ),
@@ -97,10 +97,12 @@ class _bookedState extends State<booked> {
                             leftChild: leftside_back(
                               snapshot:
                                   snapshot.child('random').value.toString(),
+                              screenshotController: screenshotController,
                             ),
                             rightChild: rightside(
                               snapshot: snapshot,
                               side: false,
+                              screenshotController: screenshotController,
                             ),
                             colorBackground: color,
                           ),
@@ -118,8 +120,11 @@ class _bookedState extends State<booked> {
 
 class leftside_back extends StatefulWidget {
   final String snapshot;
+  final ScreenshotController screenshotController;
 
-  const leftside_back({Key? key, required this.snapshot}) : super(key: key);
+  const leftside_back(
+      {Key? key, required this.snapshot, required this.screenshotController})
+      : super(key: key);
   @override
   State<leftside_back> createState() => _leftside_backState();
 }
@@ -129,7 +134,7 @@ class _leftside_backState extends State<leftside_back> {
   Widget build(BuildContext context) {
     return Center(
       child: Screenshot(
-        controller: screenshotController,
+        controller: widget.screenshotController,
         child: QrImage(
           data: widget.snapshot,
           foregroundColor: account.color_3,
@@ -171,7 +176,7 @@ class _leftside_upState extends State<leftside_up> {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 17,
                     color: Color.fromARGB(255, 218, 173, 37),
                   ),
                 ),
@@ -318,11 +323,13 @@ class _leftside_upState extends State<leftside_up> {
 class rightside extends StatefulWidget {
   final DataSnapshot snapshot;
   final bool side;
+  final ScreenshotController screenshotController;
 
   const rightside({
     Key? key,
     required this.snapshot,
     required this.side,
+    required this.screenshotController,
   }) : super(key: key);
 
   @override
@@ -330,18 +337,19 @@ class rightside extends StatefulWidget {
 }
 
 class _rightsideState extends State<rightside> {
-  _shareQrCode(String add) async {
+  _shareQrCode(String add, String atime, String ltime) async {
     final directory = (await getApplicationDocumentsDirectory()).path;
-    screenshotController.capture().then((image) async {
+    widget.screenshotController.capture().then((image) async {
       if (image != null) {
         try {
+          String _extratext = "Address- $add\nEntry- $atime\nExit- $ltime";
           String fileName = DateTime.now().microsecondsSinceEpoch.toString();
           final imagePath = await File('$directory/$fileName.png').create();
           if (imagePath != null) {
             imagePath.writeAsBytes(image);
             Share.shareFiles(
               [imagePath.path],
-              text: add,
+              text: _extratext,
             );
           }
         } catch (error) {}
@@ -470,7 +478,11 @@ class _rightsideState extends State<rightside> {
         !widget.side
             ? InkWell(
                 onTap: () {
-                  _shareQrCode(widget.snapshot.child('address').value.toString());
+                  _shareQrCode(
+                    widget.snapshot.child('address').value.toString(),
+                    widget.snapshot.child('atime').value.toString(),
+                    widget.snapshot.child('ltime').value.toString(),
+                  );
                 },
                 child: Row(
                   children: [

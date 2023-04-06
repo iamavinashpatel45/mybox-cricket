@@ -57,6 +57,11 @@ class _g_homeState extends State<g_home> {
         itemBuilder: (context, snapshot, animation, index) {
           go = true;
           account.qr_data.add(snapshot.child('random').value.toString());
+
+          // ? Center(
+          //     child: Text("skjc"),
+          //   )
+          // :
           DateTime.now().isBefore(
                   DateTime.parse(snapshot.child('leave').value.toString()))
               ? () {}

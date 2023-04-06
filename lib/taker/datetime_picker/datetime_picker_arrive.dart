@@ -31,16 +31,11 @@ class _datetime_picker_arriveState extends State<datetime_picker_arrive> {
                   data[i].first.arrive,
                 ),
               )) &&
-          (time.isBefore(
-                DateTime.parse(
-                  data[i].first.leave,
-                ),
-              ) ||
-              time.isAtSameMomentAs(
-                DateTime.parse(
-                  data[i].first.leave,
-                ),
-              ))) {
+          time.isBefore(
+            DateTime.parse(
+              data[i].first.leave,
+            ),
+          )) {
         Fluttertoast.showToast(msg: "This time allready selected!");
         return false;
       }
@@ -145,7 +140,7 @@ class _datetime_picker_arriveState extends State<datetime_picker_arrive> {
             DateTimePicker(
               type: DateTimePickerType.Both,
               startDate: datetime,
-              endDate: datetime.add(const Duration(days: 7)),
+              endDate: datetime.add(const Duration(days: 14)),
               startTime: datetime,
               timeInterval: const Duration(minutes: 30),
               onTimeChanged: (time) async {

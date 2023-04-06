@@ -109,7 +109,7 @@ class _allbookingState extends State<allbooking> {
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 17,
                                       color: Color.fromARGB(255, 218, 173, 37),
                                     ),
                                   ),

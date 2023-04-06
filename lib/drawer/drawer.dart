@@ -30,8 +30,30 @@ class drawer extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: account.color_1,
                 ),
-                accountName: Text("${account.fname_!} ${account.lname_!}"),
-                accountEmail: Text(account.email_!),
+                accountName: Row(
+                  children: [
+                    Icon(
+                      Icons.person,
+                      color: account.color_3,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text("${account.fname_!} ${account.lname_!}"),
+                  ],
+                ),
+                accountEmail: Row(
+                  children: [
+                    Icon(
+                      Icons.email,
+                      color: account.color_3,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(account.email_!),
+                  ],
+                ),
                 // currentAccountPicture: CircleAvatar(
                 //   backgroundColor: Colors.white,
                 //   child: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-KU4nchvUY3YAlh3M2Gp_xF3V6CE1UMbm09uiM6YM&s",width: 50),

@@ -2,26 +2,31 @@
   {
     "id": 1,
     "name": "Cricket",
-    "image": "assets/sports/cricket.png"
+    "image": "assets/sports/cricket.png",
+    "dec":"No. of Participants: 0-14"
   },
   {
     "id": 2,
     "name": "Football",
-    "image": "assets/sports/football.png"
+    "image": "assets/sports/football.png",
+    "dec":"No. of Participants: 0-14"
   },
   {
     "id": 3,
     "name": "Basketball",
-    "image": "assets/sports/basketball.png"
+    "image": "assets/sports/basketball.png",
+    "dec":"No. of Participants: 0-12"
   },
   {
     "id": 4,
     "name": "Volleyball",
-    "image": "assets/sports/volleyball.png"
+    "image": "assets/sports/volleyball.png",
+    "dec":"No. of Participants: 0-12"
   },
   {
     "id": 5,
     "name": "Badminton",
-    "image": "assets/sports/badmintan.png"
+    "image": "assets/sports/badmintan.png",
+    "dec":"No. of Participants: 0-6"
   }
 ]

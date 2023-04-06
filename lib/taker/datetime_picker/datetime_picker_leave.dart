@@ -32,16 +32,11 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
                   data[i].first.arrive,
                 ),
               )) &&
-          (time.isBefore(
-                DateTime.parse(
-                  data[i].first.leave,
-                ),
-              ) ||
-              time.isAtSameMomentAs(
-                DateTime.parse(
-                  data[i].first.leave,
-                ),
-              ))) {
+          time.isBefore(
+            DateTime.parse(
+              data[i].first.leave,
+            ),
+          )) {
         Fluttertoast.showToast(msg: "This time allready selected!");
         return false;
       }
@@ -149,7 +144,10 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
             ),
             Text(
               "Starting ${booking_details.a_date!.day}-${booking_details.a_date!.month}-${booking_details.a_date!.year} at $a_time",
-              style: TextStyle(fontSize: 15, color: account.color_1),
+              style: TextStyle(
+                fontSize: 15,
+                color: account.color_1,
+              ),
             ),
             DateTimePicker(
               key: _key,
@@ -170,7 +168,15 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
                   double dur_min = (booking_details.difference!.inMinutes -
                           (booking_details.difference!.inHours * 60)) /
                       30;
-                  booking_details.amount = dur_hou * 100 + dur_min * 60;
+                  if (booking_details.sport_type == 1 ||
+                      booking_details.sport_type == 2) {
+                    booking_details.amount = dur_hou * 800 + dur_min * 500;
+                  } else if (booking_details.sport_type == 3 ||
+                      booking_details.sport_type == 4) {
+                    booking_details.amount = dur_hou * 500 + dur_min * 300;
+                  } else {
+                    booking_details.amount = dur_hou * 300 + dur_min * 200;
+                  }
                   if (booking_details.amount! < 0) {
                     booking_details.amount = -(booking_details.amount!);
                   }
@@ -203,7 +209,7 @@ class _datetime_picker_leaveState extends State<datetime_picker_leave> {
                   ),
                   InkWell(
                     onTap: () async {
-                      if (await checkslot(booking_details.a_time!)) {
+                      if (await checkslot(booking_details.l_time!)) {
                         Navigator.push(
                           context,
                           PageTransition(
